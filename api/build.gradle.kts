@@ -18,12 +18,20 @@ repositories {
 	mavenCentral()
 }
 
+val mapstructVersion = "1.5.0.Final"
+val liquibaseVersion = "4.18.0"
+
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.liquibase:liquibase-core:$liquibaseVersion")
+	implementation("org.mapstruct:mapstruct:$mapstructVersion")
+	compileOnly("org.mapstruct:mapstruct-processor:$mapstructVersion")
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.projectlombok:lombok")
+	annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
