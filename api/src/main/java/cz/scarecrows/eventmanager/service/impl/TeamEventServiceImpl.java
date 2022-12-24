@@ -4,13 +4,13 @@
 
 package cz.scarecrows.eventmanager.service.impl;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
+import cz.scarecrows.eventmanager.mapper.EntityMapper;
 import cz.scarecrows.eventmanager.model.TeamEvent;
 import cz.scarecrows.eventmanager.repository.TeamEventRepository;
 import cz.scarecrows.eventmanager.service.TeamEventService;
@@ -24,10 +24,11 @@ import lombok.extern.slf4j.Slf4j;
 public class TeamEventServiceImpl implements TeamEventService {
 
     private final TeamEventRepository teamEventRepository;
+    private final EntityMapper entityMapper;
 
     @Override
     public List<TeamEvent> getTeamEvents() {
-        return Collections.emptyList();
+        return teamEventRepository.findAll();
     }
 
     @Override
@@ -38,8 +39,7 @@ public class TeamEventServiceImpl implements TeamEventService {
     @Override
     @Transactional
     public TeamEvent createTeamEvent(final TeamEventRequest teamEventRequest) {
-        final TeamEvent teamEvent = new TeamEvent();
-        teamEvent.setTitle(teamEventRequest.getTitle());
+        final TeamEvent teamEvent = entityMapper.toEntity(teamEventRequest);
         return teamEventRepository.save(teamEvent);
     }
 

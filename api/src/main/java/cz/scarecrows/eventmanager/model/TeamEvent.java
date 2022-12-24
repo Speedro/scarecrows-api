@@ -5,6 +5,9 @@
 package cz.scarecrows.eventmanager.model;
 
 
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,8 +25,21 @@ public class TeamEvent {
 
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "sc_team_event_seq")
-    @SequenceGenerator(initialValue=1, name="sc_team_event_seq", sequenceName="sc_team_event_seq", allocationSize=1)
+    @SequenceGenerator(name="sc_team_event_seq", sequenceName="sc_team_event_seq", allocationSize=1)
     private Long id;
 
     private String title;
+
+    private LocalDateTime startDateTime;
+
+    private LocalDateTime endDateTime;
+
+    private LocalDateTime registrationStart;
+
+    private LocalDateTime registrationEnd;
+
+    private String eventType;
+
+    @Column(name = "event_description")
+    private String description;
 }

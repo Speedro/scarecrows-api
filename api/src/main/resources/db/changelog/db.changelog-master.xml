@@ -12,4 +12,31 @@
         </createTable>
         <createSequence sequenceName="sc_team_event_seq" incrementBy="1" startValue="1" />
     </changeSet>
+    <changeSet id="202212241136" author="Petr Kadlec">
+       <addColumn tableName="sc_team_event">
+           <column name="start_date_time" type="datetime">
+               <constraints nullable="false" />
+           </column>
+           <column name="end_date_time" type="datetime">
+               <constraints nullable="false" />
+           </column>
+           <column name="registration_start" type="datetime">
+               <constraints nullable="false" />
+           </column>
+           <column name="registration_end" type="datetime">
+               <constraints nullable="false" />
+           </column>
+           <column name="event_type" type="varchar(50)">
+               <constraints nullable="false" />
+           </column>
+           <column name="event_description" type="varchar(250)">
+               <constraints nullable="true" />
+           </column>
+       </addColumn>
+        <update tableName="sc_team_event">
+            <column name="title">
+                <constraints nullable="false" />
+            </column>
+        </update>
+    </changeSet>
 </databaseChangeLog>
