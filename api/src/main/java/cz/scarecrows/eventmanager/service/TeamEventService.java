@@ -7,11 +7,12 @@ package cz.scarecrows.eventmanager.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.stereotype.Service;
 
 import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
 import cz.scarecrows.eventmanager.model.TeamEvent;
-import jakarta.validation.constraints.NotNull;
 
 @Service
 public interface TeamEventService {

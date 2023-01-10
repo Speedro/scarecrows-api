@@ -7,6 +7,8 @@ package cz.scarecrows.eventmanager.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
@@ -14,7 +16,6 @@ import cz.scarecrows.eventmanager.mapper.EntityMapper;
 import cz.scarecrows.eventmanager.model.TeamEvent;
 import cz.scarecrows.eventmanager.repository.TeamEventRepository;
 import cz.scarecrows.eventmanager.service.TeamEventService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
