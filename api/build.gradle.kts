@@ -1,6 +1,6 @@
 plugins {
 	java
-	id("org.springframework.boot") version "3.0.0"
+	id("org.springframework.boot") version "2.7.7"
 	id("io.spring.dependency-management") version "1.1.0"
 }
 
@@ -18,12 +18,22 @@ repositories {
 	mavenCentral()
 }
 
+val mapstructVersion = "1.5.0.Final"
+val liquibaseVersion = "4.18.0"
+val swaggerIntegrationVersion = "3.0.0"
+
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.liquibase:liquibase-core:$liquibaseVersion")
+	implementation("org.mapstruct:mapstruct:$mapstructVersion")
+	implementation("io.springfox:springfox-boot-starter:$swaggerIntegrationVersion")
+	compileOnly("org.mapstruct:mapstruct-processor:$mapstructVersion")
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.projectlombok:lombok")
+	annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
