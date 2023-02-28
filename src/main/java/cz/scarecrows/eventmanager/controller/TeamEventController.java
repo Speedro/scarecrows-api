@@ -9,6 +9,7 @@ import static cz.scarecrows.eventmanager.util.AppConstants.ID;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,7 @@ public class TeamEventController {
         final List<TeamEventDto> teamEvents = teamEventService.getTeamEvents()
                 .stream()
                 .map(entityMapper::toDto)
-                .toList();
+                .collect(Collectors.toList());
         log.info("Obtained {} team events.", teamEvents.size());
         return ResponseEntity.ok(teamEvents);
     }
