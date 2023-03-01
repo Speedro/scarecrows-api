@@ -1,11 +1,7 @@
-/*
- * Copyright (c) 2022 Finshape Czechia s.r.o.
- */
-
 package cz.scarecrows.eventmanager.controller;
 
-import static cz.scarecrows.eventmanager.util.AppConstants.EVENTS;
-import static cz.scarecrows.eventmanager.util.AppConstants.ID;
+import static cz.scarecrows.eventmanager.util.RestConstants.EVENTS;
+import static cz.scarecrows.eventmanager.util.RestConstants.ID;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +24,6 @@ import cz.scarecrows.eventmanager.model.TeamEvent;
 import cz.scarecrows.eventmanager.service.TeamEventService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 
 @Slf4j
 @RestController
