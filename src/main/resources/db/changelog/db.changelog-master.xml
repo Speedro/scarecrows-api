@@ -39,4 +39,10 @@
             </column>
         </update>
     </changeSet>
+    <changeSet id="202301031817" author="Petr Kadlec">
+        <addColumn tableName="sc_team_event">
+            <column name="place" type="varchar(250)" />
+            <column name="opponent" type="varchar(250)" />
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

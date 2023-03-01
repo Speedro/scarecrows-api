@@ -12,8 +12,6 @@ public interface EntityMapper {
 
     TeamEventDto toDto(final TeamEvent teamEvent);
 
-    TeamEvent toEntity(final TeamEventDto teamEventDto);
-
     @Mapping(target = "id", ignore = true)
     TeamEvent toEntity(final TeamEventRequest teamEventRequest);
 }

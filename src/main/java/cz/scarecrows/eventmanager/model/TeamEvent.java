@@ -38,4 +38,8 @@ public class TeamEvent {
 
     @Column(name = "event_description")
     private String description;
+
+    private String place;
+
+    private String opponent;
 }

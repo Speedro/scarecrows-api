@@ -23,4 +23,6 @@ public class TeamEventRequest {
     LocalDateTime registrationEnd;
     String eventType;
     String description;
+    String opponent;
+    String place;
 }

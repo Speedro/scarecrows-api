@@ -3,9 +3,11 @@ package cz.scarecrows.eventmanager.data;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Builder;
 import lombok.Value;
 
 @Value
+@Builder
 public class TeamEventDto {
 
     Long id;
@@ -18,6 +20,8 @@ public class TeamEventDto {
     LocalDateTime registrationStart;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     LocalDateTime registrationEnd;
-    String eventType;
+    EventType eventType;
     String description;
+    String place;
+    String opponent;
 }
