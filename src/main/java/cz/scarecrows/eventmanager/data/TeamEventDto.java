@@ -10,7 +10,7 @@ import lombok.Value;
 @Builder
 public class TeamEventDto {
 
-    Long id;
+    Long eventId;
     String title;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     LocalDateTime startDateTime;

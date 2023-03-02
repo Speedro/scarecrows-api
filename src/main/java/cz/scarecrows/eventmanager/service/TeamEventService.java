@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Service;
 
+import cz.scarecrows.eventmanager.data.EventRegistrationStatus;
+import cz.scarecrows.eventmanager.data.RegistrationStatus;
 import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
 import cz.scarecrows.eventmanager.model.TeamEvent;
 
@@ -15,9 +17,11 @@ public interface TeamEventService {
 
     List<TeamEvent> getTeamEvents();
 
-    Optional<TeamEvent> getEventById(@NotNull final Long id);
+    Optional<TeamEvent> getEventById(@NotNull Long id);
 
-    TeamEvent createTeamEvent(@NotNull final TeamEventRequest teamEventRequest);
+    TeamEvent createTeamEvent(@NotNull TeamEventRequest teamEventRequest);
 
-    void deleteEvent(@NotNull final Long id);
+    void deleteEvent(@NotNull Long id);
+
+    TeamEvent updateEventStatus(@NotNull Long eventId, @NotNull RegistrationStatus status);
 }
