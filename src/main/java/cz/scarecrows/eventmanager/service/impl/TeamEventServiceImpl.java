@@ -19,6 +19,7 @@ import cz.scarecrows.eventmanager.repository.TeamEventRepository;
 import cz.scarecrows.eventmanager.repository.TeamMemberRepository;
 import cz.scarecrows.eventmanager.service.EventRegistrationService;
 import cz.scarecrows.eventmanager.service.TeamEventService;
+import cz.scarecrows.eventmanager.validation.ITeamEventValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,6 +32,7 @@ public class TeamEventServiceImpl implements TeamEventService {
     private final EventRegistrationService eventRegistrationService;
     private final TeamMemberRepository teamMemberRepository;
     private final EntityMapper entityMapper;
+    private final ITeamEventValidator teamEventValidator;
 
     @Override
     public List<TeamEvent> getTeamEvents() {
@@ -45,9 +47,8 @@ public class TeamEventServiceImpl implements TeamEventService {
     @Override
     @Transactional
     public TeamEvent createTeamEvent(final TeamEventRequest teamEventRequest) {
-        final TeamEvent teamEvent = entityMapper.toEntity(teamEventRequest);
 
-        teamEventRepository.save(teamEvent);
+        final TeamEvent teamEvent = teamEventRepository.save(entityMapper.toEntity(teamEventRequest));
 
         final Set<Long> memberIds = new HashSet<>();
         if (CollectionUtils.isEmpty(teamEventRequest.getMemberIds())) {

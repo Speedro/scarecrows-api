@@ -12,7 +12,6 @@ import cz.scarecrows.eventmanager.data.RegistrationStatus;
 import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
 import cz.scarecrows.eventmanager.model.TeamEvent;
 
-@Service
 public interface TeamEventService {
 
     List<TeamEvent> getTeamEvents();
