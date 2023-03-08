@@ -35,6 +35,7 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 	annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	runtimeOnly("com.h2database:h2:2.1.214")
 }
 
 tasks.withType<Test> {

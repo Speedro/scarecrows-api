@@ -8,12 +8,13 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import cz.scarecrows.eventmanager.data.TeamMemberDto;
+import cz.scarecrows.eventmanager.data.TeamMemberStatus;
 import cz.scarecrows.eventmanager.data.request.TeamMemberRequest;
 import cz.scarecrows.eventmanager.mapper.EntityMapper;
 import cz.scarecrows.eventmanager.model.TeamMember;
 import cz.scarecrows.eventmanager.repository.TeamMemberRepository;
 import cz.scarecrows.eventmanager.service.TeamMemberService;
+import cz.scarecrows.eventmanager.validation.ITeamMemberValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class TeamMemberServiceImpl implements TeamMemberService {
 
     private final TeamMemberRepository teamMemberRepository;
+    private final ITeamMemberValidator teamMemberValidator;
     private final EntityMapper entityMapper;
 
     @Override
@@ -44,8 +46,13 @@ public class TeamMemberServiceImpl implements TeamMemberService {
     }
 
     @Override
-    public TeamMember createTeamMember(final TeamMemberRequest teamMemberDto) {
-        return teamMemberRepository.save(entityMapper.toEntity(teamMemberDto));
+    public TeamMember createTeamMember(final TeamMemberRequest teamMemberRequest) {
+
+        teamMemberValidator.validateUniqueNumberAmongActivePlayers(teamMemberRequest).eval();
+
+        final TeamMember teamMember = entityMapper.toEntity(teamMemberRequest);
+        teamMember.setStatus(TeamMemberStatus.ACTIVE);
+        return teamMemberRepository.save(teamMember);
     }
 
     @Override

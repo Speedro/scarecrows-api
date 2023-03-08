@@ -1,6 +1,7 @@
 package cz.scarecrows.eventmanager.data.request;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -25,4 +26,5 @@ public class TeamEventRequest {
     String description;
     String opponent;
     String place;
+    Set<Long> memberIds;
 }

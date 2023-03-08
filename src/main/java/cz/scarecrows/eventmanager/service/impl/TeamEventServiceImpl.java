@@ -1,16 +1,23 @@
 package cz.scarecrows.eventmanager.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import cz.scarecrows.eventmanager.data.RegistrationStatus;
+import cz.scarecrows.eventmanager.data.request.EventRegistrationRequest;
 import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
 import cz.scarecrows.eventmanager.mapper.EntityMapper;
 import cz.scarecrows.eventmanager.model.TeamEvent;
 import cz.scarecrows.eventmanager.repository.TeamEventRepository;
+import cz.scarecrows.eventmanager.repository.TeamMemberRepository;
+import cz.scarecrows.eventmanager.service.EventRegistrationService;
 import cz.scarecrows.eventmanager.service.TeamEventService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 public class TeamEventServiceImpl implements TeamEventService {
 
     private final TeamEventRepository teamEventRepository;
+    private final EventRegistrationService eventRegistrationService;
+    private final TeamMemberRepository teamMemberRepository;
     private final EntityMapper entityMapper;
 
     @Override
@@ -37,7 +46,22 @@ public class TeamEventServiceImpl implements TeamEventService {
     @Transactional
     public TeamEvent createTeamEvent(final TeamEventRequest teamEventRequest) {
         final TeamEvent teamEvent = entityMapper.toEntity(teamEventRequest);
-        return teamEventRepository.save(teamEvent);
+
+        teamEventRepository.save(teamEvent);
+
+        final Set<Long> memberIds = new HashSet<>();
+        if (CollectionUtils.isEmpty(teamEventRequest.getMemberIds())) {
+            memberIds.addAll(teamMemberRepository.findActiveMemberIds());
+        } else {
+            memberIds.addAll(teamEventRequest.getMemberIds());
+        }
+
+        memberIds.forEach(memberId -> {
+            final EventRegistrationRequest eventRegistrationRequest = new EventRegistrationRequest(teamEvent.getEventId(), memberId);
+            eventRegistrationService.createEventRegistration(eventRegistrationRequest);
+        });
+
+        return teamEvent;
     }
 
     @Override
@@ -47,5 +71,13 @@ public class TeamEventServiceImpl implements TeamEventService {
             teamEventRepository.delete(it);
             log.info("Successfully deleted event with id {}", id);
         });
+    }
+
+    @Override
+    public TeamEvent updateEventStatus(final Long eventId, final RegistrationStatus status) {
+
+        // find event
+        return null; // TODO
+
     }
 }

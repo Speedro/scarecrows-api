@@ -22,7 +22,8 @@ public class TeamEvent {
     @Id
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "sc_team_event_seq")
     @SequenceGenerator(name="sc_team_event_seq", sequenceName="sc_team_event_seq", allocationSize=1)
-    private Long id;
+    @Column(name = "event_id")
+    private Long eventId;
 
     private String title;
 
