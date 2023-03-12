@@ -3,15 +3,23 @@
  */
 package cz.scarecrows.eventmanager.exception;
 
+import lombok.Data;
+import lombok.Getter;
+
 /**
  * RegistrationnotFoundException
  *
  * @author <a href="mailto:petr.kadlec@finshape.com">Petr Kadlec</a>
  */
+
+@Getter
 public class EntityNotFoundException extends IllegalStateException {
 
-    public EntityNotFoundException(final String message) {
+    private final String entityName;
+
+    public EntityNotFoundException(final String message, final String entityName) {
         super(message);
+        this.entityName = entityName;
     }
 
 }

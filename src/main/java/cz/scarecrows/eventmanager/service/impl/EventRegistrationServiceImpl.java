@@ -77,7 +77,7 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
     @Override
     public EventRegistration updateEventRegistrationStatus(final Long eventId, final Long memberId, final RegistrationStatus registrationStatus) {
         final EventRegistration registration = registrationRepository.findByTeamEventAndMemberId(eventId, memberId)
-                .orElseThrow(() -> new EntityNotFoundException("Registration not found."));
+                .orElseThrow(() -> new EntityNotFoundException("Registration not found.", "Event registration"));
 
         registration.setRegistrationStatus(registrationStatus);
         registrationRepository.save(registration);
