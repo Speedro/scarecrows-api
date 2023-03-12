@@ -52,7 +52,7 @@ public class EventRegistrationValidator implements IEventRegistrationValidator {
     public EventRegistrationValidator eventExists(final EventRegistrationRequest request) {
         teamEventRepository.findById(request.getEventId()).orElseThrow(() -> {
             log.error("Requested event does not exist.");
-            throw new EntityNotFoundException("Requested event does not exist.");
+            throw new EntityNotFoundException("Requested event does not exist.", "Team event");
         });
         return this;
     }
@@ -61,7 +61,7 @@ public class EventRegistrationValidator implements IEventRegistrationValidator {
     public EventRegistrationValidator userExists(final EventRegistrationRequest request) {
         teamMemberRepository.findById(request.getTeamMemberId()).orElseThrow(() -> {
             log.error("User with given id doesn't exist");
-            throw new EntityNotFoundException("User with given id doesn't exist");
+            throw new EntityNotFoundException("User with given id doesn't exist", "Team member");
         });
         return this;
     }
