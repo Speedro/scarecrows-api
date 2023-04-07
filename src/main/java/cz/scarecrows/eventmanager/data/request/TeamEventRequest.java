@@ -24,15 +24,12 @@ public class TeamEventRequest {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     LocalDateTime startDateTime;
 
-    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     LocalDateTime endDateTime;
 
-    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     LocalDateTime registrationStart;
 
-    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     LocalDateTime registrationEnd;
 
@@ -46,4 +43,18 @@ public class TeamEventRequest {
     String place;
 
     Set<Long> memberIds;
+
+    public static TeamEventRequest.TeamEventRequestBuilder toBuilder(final TeamEventRequest original) {
+        return TeamEventRequest.builder()
+                .title(original.title)
+                .description(original.description)
+                .eventType(original.eventType)
+                .place(original.place)
+                .memberIds(original.memberIds)
+                .startDateTime(original.startDateTime)
+                .endDateTime(original.endDateTime)
+                .registrationStart(original.registrationStart)
+                .registrationEnd(original.registrationEnd)
+                .opponent(original.opponent);
+    }
 }
