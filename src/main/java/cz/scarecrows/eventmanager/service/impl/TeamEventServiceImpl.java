@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import cz.scarecrows.eventmanager.data.EventType;
 import cz.scarecrows.eventmanager.data.RegistrationStatus;
 import cz.scarecrows.eventmanager.data.request.EventRegistrationRequest;
 import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
@@ -18,8 +19,10 @@ import cz.scarecrows.eventmanager.model.TeamEvent;
 import cz.scarecrows.eventmanager.repository.TeamEventRepository;
 import cz.scarecrows.eventmanager.repository.TeamMemberRepository;
 import cz.scarecrows.eventmanager.service.EventRegistrationService;
+import cz.scarecrows.eventmanager.service.EventTimesResolver;
 import cz.scarecrows.eventmanager.service.TeamEventService;
 import cz.scarecrows.eventmanager.validation.ITeamEventValidator;
+import cz.scarecrows.eventmanager.validation.impl.TeamEventValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,6 +36,7 @@ public class TeamEventServiceImpl implements TeamEventService {
     private final TeamMemberRepository teamMemberRepository;
     private final EntityMapper entityMapper;
     private final ITeamEventValidator teamEventValidator;
+    private final EventTimesResolver eventTimesResolver;
 
     @Override
     public List<TeamEvent> getTeamEvents() {
@@ -48,7 +52,11 @@ public class TeamEventServiceImpl implements TeamEventService {
     @Transactional
     public TeamEvent createTeamEvent(final TeamEventRequest teamEventRequest) {
 
-        final TeamEvent teamEvent = teamEventRepository.save(entityMapper.toEntity(teamEventRequest));
+        final TeamEventRequest requestWithDates = teamEventRequestWithDates(teamEventRequest);
+
+        teamEventValidator.validateEventDates(requestWithDates);
+
+        final TeamEvent teamEvent = teamEventRepository.save(entityMapper.toEntity(requestWithDates));
 
         final Set<Long> memberIds = new HashSet<>();
         if (CollectionUtils.isEmpty(teamEventRequest.getMemberIds())) {
@@ -63,6 +71,19 @@ public class TeamEventServiceImpl implements TeamEventService {
         });
 
         return teamEvent;
+    }
+
+    private TeamEventRequest teamEventRequestWithDates(final TeamEventRequest originalRequest) {
+        return TeamEventRequest.toBuilder(originalRequest)
+                .registrationStart(eventTimesResolver.resolveRegistrationStart(
+                        originalRequest.getStartDateTime(), originalRequest.getRegistrationStart()))
+                .registrationEnd(eventTimesResolver.resolveRegistrationEnd(
+                        originalRequest.getStartDateTime(), originalRequest.getRegistrationEnd()))
+                .endDateTime(eventTimesResolver.resolveEventEnd(
+                        originalRequest.getStartDateTime(),
+                        EventType.valueOf(originalRequest.getEventType()),
+                        originalRequest.getEndDateTime()))
+                .build();
     }
 
     @Override

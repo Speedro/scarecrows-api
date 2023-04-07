@@ -40,12 +40,14 @@ public class TeamEventValidator implements ITeamEventValidator {
 
     private void dateBeforeOther(final LocalDateTime first, final LocalDateTime second) {
         if (first.isAfter(second)) {
+            log.error("Given date {} is supposed to go after {}", second, first);
             throw new EventDateValidationException("First date is supposed to be before the other.");
         }
     }
 
     private void dateInFuture(final LocalDateTime now, final LocalDateTime localDateTime) {
         if (now.isAfter(localDateTime)) {
+            log.error("Given date {} is in past from now", localDateTime);
             throw new EventDateValidationException("Given date is not in future");
         }
     }
