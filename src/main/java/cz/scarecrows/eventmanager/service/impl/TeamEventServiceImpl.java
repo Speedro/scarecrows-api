@@ -22,7 +22,6 @@ import cz.scarecrows.eventmanager.service.EventRegistrationService;
 import cz.scarecrows.eventmanager.service.EventTimesResolver;
 import cz.scarecrows.eventmanager.service.TeamEventService;
 import cz.scarecrows.eventmanager.validation.ITeamEventValidator;
-import cz.scarecrows.eventmanager.validation.impl.TeamEventValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,7 +51,7 @@ public class TeamEventServiceImpl implements TeamEventService {
     @Transactional
     public TeamEvent createTeamEvent(final TeamEventRequest teamEventRequest) {
 
-        final TeamEventRequest requestWithDates = teamEventRequestWithDates(teamEventRequest);
+        final TeamEventRequest requestWithDates = setEventDates(teamEventRequest);
 
         teamEventValidator.validateEventDates(requestWithDates);
 
@@ -73,7 +72,7 @@ public class TeamEventServiceImpl implements TeamEventService {
         return teamEvent;
     }
 
-    private TeamEventRequest teamEventRequestWithDates(final TeamEventRequest originalRequest) {
+    private TeamEventRequest setEventDates(final TeamEventRequest originalRequest) {
         return TeamEventRequest.toBuilder(originalRequest)
                 .registrationStart(eventTimesResolver.resolveRegistrationStart(
                         originalRequest.getStartDateTime(), originalRequest.getRegistrationStart()))
