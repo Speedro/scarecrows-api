@@ -4,8 +4,6 @@
  */
 package cz.scarecrows.eventmanager.validation;
 
-import java.time.LocalDateTime;
-
 import javax.validation.constraints.NotNull;
 
 import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
@@ -19,5 +17,7 @@ import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
 public interface ITeamEventValidator extends IValidator {
 
     ITeamEventValidator validateEventDates(@NotNull TeamEventRequest teamEventRequest);
+
+    ITeamEventValidator validateEventType(@NotNull TeamEventRequest teamEventRequest);
 
 }

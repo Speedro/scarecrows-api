@@ -42,9 +42,9 @@ public class EventRegistrationController {
         final EventRegistrationResult eventRegistrationResult = eventRegistrationService.createEventRegistration(request);
         if (eventRegistrationResult.isSuccess()) {
             return ResponseEntity.created(URI.create("???")).body(eventRegistrationResult);
-        } else {
-            return ResponseEntity.status(400).body(eventRegistrationResult);
         }
+        return ResponseEntity.status(400).body(eventRegistrationResult);
+
     }
 
     @PatchMapping

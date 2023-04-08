@@ -15,7 +15,6 @@ import cz.scarecrows.eventmanager.AbstractIntegrationTest;
  * @author <a href="mailto:petr.kadlec@finshape.com">Petr Kadlec</a>
  */
 
-@Sql("classpath:sql/mapper_test_data.sql")
 public class EventMapperTest extends AbstractIntegrationTest {
 
     @Test

@@ -72,4 +72,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(validationResult, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(value = { UnsupportedEventTypeException.class })
+    protected ResponseEntity<ValidationError> handleUnsupportedEventTypeException(final UnsupportedEventTypeException exception) {
+        log.error("Validation failed {}", exception.getMessage());
+        final ValidationError validationResult = ValidationError.builder()
+                .message(exception.getMessage())
+                .validationErrorCode(ValidationErrorCode.VAL_ERR_02)
+                .build();
+        return new ResponseEntity<>(validationResult, HttpStatus.CONFLICT);
+    }
 }

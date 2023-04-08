@@ -51,9 +51,11 @@ public class TeamEventServiceImpl implements TeamEventService {
     @Transactional
     public TeamEvent createTeamEvent(final TeamEventRequest teamEventRequest) {
 
+        teamEventValidator.validateEventType(teamEventRequest).eval();
+
         final TeamEventRequest requestWithDates = setEventDates(teamEventRequest);
 
-        teamEventValidator.validateEventDates(requestWithDates);
+        teamEventValidator.validateEventDates(requestWithDates).eval();
 
         final TeamEvent teamEvent = teamEventRepository.save(entityMapper.toEntity(requestWithDates));
 
@@ -90,7 +92,7 @@ public class TeamEventServiceImpl implements TeamEventService {
         final Optional<TeamEvent> teamEvent = getEventById(id);
         teamEvent.ifPresent(it -> {
             teamEventRepository.delete(it);
-            log.info("Successfully deleted event with id {}", id);
+            log.debug("Successfully deleted event with id {}", id);
         });
     }
 
