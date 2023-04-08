@@ -22,17 +22,16 @@ import cz.scarecrows.eventmanager.model.TeamEvent;
  *
  * @author <a href="mailto:petr.kadlec@finshape.com">Petr Kadlec</a>
  */
-@Sql("classpath:sql/service_test_data.sql")
 public class TeamEventServiceTest extends AbstractIntegrationTest {
 
     @Autowired
     public TeamEventService tested;
 
-//    @Test
+    @Test
     @DisplayName("Test creation of an event")
     public void testCreateTeamEvent_expectSuccess() {
 
-        final LocalDateTime now = LocalDateTime.parse("2022-03-07T19:00:00", DateTimeFormatter.ISO_DATE_TIME);
+        final LocalDateTime now = LocalDateTime.now();
         final LocalDateTime eventStart = now.plus(3L, ChronoUnit.DAYS);
         final LocalDateTime eventEnd = eventStart.plus(2, ChronoUnit.HOURS);
         final LocalDateTime registrationStart = now.plus(2, ChronoUnit.DAYS);

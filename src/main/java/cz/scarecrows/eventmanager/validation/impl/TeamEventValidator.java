@@ -4,19 +4,23 @@
 package cz.scarecrows.eventmanager.validation.impl;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.springframework.stereotype.Component;
 
+import cz.scarecrows.eventmanager.data.EventType;
 import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
 import cz.scarecrows.eventmanager.exception.EventDateValidationException;
+import cz.scarecrows.eventmanager.exception.UnsupportedEventTypeException;
 import cz.scarecrows.eventmanager.validation.ITeamEventValidator;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * TeamEventValidator
  *
- * @author <a href="mailto:petr.kadlec@finshape.com">Petr Kadlec</a>
+ * @author <a href="mailto:the.swdev@gmail.com">Petr Kadlec</a>
  */
 @Slf4j
 @Component
@@ -30,9 +34,16 @@ public class TeamEventValidator implements ITeamEventValidator {
         final LocalDateTime eventStart = teamEventRequest.getStartDateTime();
         final LocalDateTime eventEnd = teamEventRequest.getEndDateTime();
 
-        Stream.of(registrationStart, registrationEnd, eventStart, eventEnd).forEach(it -> dateInFuture(now, it));
+        // event start and event end must be in future
+        Stream.of(eventStart, eventEnd).forEach(it -> dateInFuture(now, it));
 
+        // registration start must be before registration end
         dateBeforeOther(registrationStart, registrationEnd);
+
+        // registration start must be before event start
+        dateBeforeOther(registrationStart, eventStart);
+
+        // event start must be before event end
         dateBeforeOther(eventStart, eventEnd);
 
         return this;
@@ -50,6 +61,18 @@ public class TeamEventValidator implements ITeamEventValidator {
             log.error("Given date {} is in past from now", localDateTime);
             throw new EventDateValidationException("Given date is not in future");
         }
+    }
+
+    @Override
+    public ITeamEventValidator validateEventType(final TeamEventRequest teamEventRequest) {
+        final Optional<EventType> res = Arrays.stream(EventType.values())
+                .filter(it -> it.name().equals(teamEventRequest.getEventType()))
+                .findFirst();
+        if (res.isEmpty()) {
+            throw new UnsupportedEventTypeException("No event type for given string: " + teamEventRequest.getEventType() + " is supported");
+        }
+
+        return this;
     }
 
     @Override

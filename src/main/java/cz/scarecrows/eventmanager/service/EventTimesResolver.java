@@ -18,12 +18,16 @@ public interface EventTimesResolver {
      * @return date and time of when the registration starts.
      */
     default LocalDateTime resolveRegistrationStart(@NotNull final LocalDateTime eventStart, final LocalDateTime originalRegistrationStart) {
+        final LocalDateTime now = LocalDateTime.now();
         if (originalRegistrationStart != null) {
+            if (originalRegistrationStart.isBefore(now)) {
+                return now;
+            }
             return originalRegistrationStart;
         }
         final LocalDateTime eventStartMinusOneWeek = eventStart.minusWeeks(1);
-        if (eventStartMinusOneWeek.isBefore(LocalDateTime.now())) {
-            return LocalDateTime.now();
+        if (eventStartMinusOneWeek.isBefore(now)) {
+            return now;
         }
         return eventStartMinusOneWeek;
     }
