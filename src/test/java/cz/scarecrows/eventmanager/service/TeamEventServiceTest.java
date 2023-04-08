@@ -20,7 +20,7 @@ import cz.scarecrows.eventmanager.model.TeamEvent;
 /**
  * TeamEventServiceTest
  *
- * @author <a href="mailto:petr.kadlec@finshape.com">Petr Kadlec</a>
+ * @author <a href="mailto:the.swdev@gmail.com">Petr Kadlec</a>
  */
 public class TeamEventServiceTest extends AbstractIntegrationTest {
 
@@ -31,11 +31,11 @@ public class TeamEventServiceTest extends AbstractIntegrationTest {
     @DisplayName("Test creation of an event")
     public void testCreateTeamEvent_expectSuccess() {
 
-        final LocalDateTime now = LocalDateTime.now();
+        final LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         final LocalDateTime eventStart = now.plus(3L, ChronoUnit.DAYS);
         final LocalDateTime eventEnd = eventStart.plus(2, ChronoUnit.HOURS);
         final LocalDateTime registrationStart = now.plus(2, ChronoUnit.DAYS);
-        final LocalDateTime registrationEnd = eventStart.minus(12, ChronoUnit.HOURS);
+        final LocalDateTime registrationEnd = eventStart.minus(1, ChronoUnit.DAYS);
 
         final String eventType = "MATCH";
         final String description = "Event description";
