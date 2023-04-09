@@ -14,6 +14,6 @@ import lombok.Value;
 public class EventRegistrationDto {
 
     Long teamEventId;
-    Long teamMemberId;
+    TeamMemberDto teamMember;
     RegistrationStatus registrationStatus;
 }
