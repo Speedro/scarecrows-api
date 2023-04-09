@@ -34,7 +34,7 @@ public class TeamEventServiceTest extends AbstractIntegrationTest {
         final LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         final LocalDateTime eventStart = now.plus(3L, ChronoUnit.DAYS);
         final LocalDateTime eventEnd = eventStart.plus(2, ChronoUnit.HOURS);
-        final LocalDateTime registrationStart = now.plus(2, ChronoUnit.DAYS);
+        final LocalDateTime registrationStart = now.plus(1, ChronoUnit.DAYS);
         final LocalDateTime registrationEnd = eventStart.minus(1, ChronoUnit.DAYS);
 
         final String eventType = "MATCH";
