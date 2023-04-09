@@ -10,14 +10,19 @@ import org.springframework.stereotype.Component;
 
 import cz.scarecrows.eventmanager.data.EventRegistrationDto;
 import cz.scarecrows.eventmanager.data.TeamEventDto;
+import cz.scarecrows.eventmanager.data.TeamMemberDto;
 import cz.scarecrows.eventmanager.data.response.TeamEventDetailResponseDto;
+import cz.scarecrows.eventmanager.exception.EntityNotFoundException;
+import cz.scarecrows.eventmanager.model.EventRegistration;
 import cz.scarecrows.eventmanager.model.TeamEvent;
+import cz.scarecrows.eventmanager.model.TeamMember;
 import cz.scarecrows.eventmanager.service.EventRegistrationService;
+import cz.scarecrows.eventmanager.service.TeamMemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * EventResponesConverter
+ * EventResponseConverter
  *
  * @author <a href="mailto:petr.kadlec@finshape.com">Petr Kadlec</a>
  */
@@ -27,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 public class EventResponseMapper implements ResponseMapper {
 
     private final EventRegistrationService eventRegistrationService;
+    private final TeamMemberService teamMemberService;
     private final EntityMapper entityMapper;
 
     public TeamEventDetailResponseDto toResponseDto(final TeamEvent teamEvent) {
@@ -35,13 +41,21 @@ public class EventResponseMapper implements ResponseMapper {
 
         final List<EventRegistrationDto> eventRegistrations = eventRegistrationService.getEventRegistrations(teamEvent.getEventId())
                 .stream()
-                .map(entityMapper::toDto)
+                .map(this::toEventRegistrationDto)
                 .collect(Collectors.toList());
 
         return TeamEventDetailResponseDto.builder()
                 .teamEventDto(teamEventDto)
                 .registrationsList(eventRegistrations)
                 .build();
+    }
+
+    private EventRegistrationDto toEventRegistrationDto(final EventRegistration eventRegistration) {
+        final TeamMemberDto teamMemberDto =teamMemberService.getTeamMemberById(eventRegistration.getTeamMemberId())
+                .map(entityMapper::toDto)
+                .orElseThrow(() -> new EntityNotFoundException("Entity not found", "Team member"));
+
+        return new EventRegistrationDto(eventRegistration.getTeamEventId(), teamMemberDto, eventRegistration.getRegistrationStatus());
     }
 
 }
