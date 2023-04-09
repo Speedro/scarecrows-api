@@ -81,4 +81,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .build();
         return new ResponseEntity<>(validationResult, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(value = { MatchStartInLessThenTwoHoursException.class })
+    protected ResponseEntity<ValidationError> handleMatchStartInLessThenTwoHoursException(final MatchStartInLessThenTwoHoursException exception) {
+        log.error("Validation failed {}", exception.getMessage());
+        final ValidationError validationResult = ValidationError.builder()
+                .message(exception.getMessage())
+                .validationErrorCode(ValidationErrorCode.VAL_ERR_03)
+                .build();
+        return new ResponseEntity<>(validationResult, HttpStatus.CONFLICT);
+    }
 }
