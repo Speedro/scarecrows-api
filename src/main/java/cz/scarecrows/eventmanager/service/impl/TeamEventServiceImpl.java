@@ -1,5 +1,7 @@
 package cz.scarecrows.eventmanager.service.impl;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -18,8 +20,9 @@ import cz.scarecrows.eventmanager.mapper.EntityMapper;
 import cz.scarecrows.eventmanager.model.TeamEvent;
 import cz.scarecrows.eventmanager.repository.TeamEventRepository;
 import cz.scarecrows.eventmanager.repository.TeamMemberRepository;
+import cz.scarecrows.eventmanager.resolver.TimeResolverFactory;
 import cz.scarecrows.eventmanager.service.EventRegistrationService;
-import cz.scarecrows.eventmanager.service.EventTimesResolver;
+import cz.scarecrows.eventmanager.resolver.EventTimeResolver;
 import cz.scarecrows.eventmanager.service.TeamEventService;
 import cz.scarecrows.eventmanager.validation.ITeamEventValidator;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +38,6 @@ public class TeamEventServiceImpl implements TeamEventService {
     private final TeamMemberRepository teamMemberRepository;
     private final EntityMapper entityMapper;
     private final ITeamEventValidator teamEventValidator;
-    private final EventTimesResolver eventTimesResolver;
 
     @Override
     public List<TeamEvent> getTeamEvents() {
@@ -75,15 +77,11 @@ public class TeamEventServiceImpl implements TeamEventService {
     }
 
     private TeamEventRequest setEventDates(final TeamEventRequest originalRequest) {
+        final EventTimeResolver timeResolver = TimeResolverFactory.getResolver(EventType.valueOf(originalRequest.getEventType()));
         return TeamEventRequest.toBuilder(originalRequest)
-                .registrationStart(eventTimesResolver.resolveRegistrationStart(
-                        originalRequest.getStartDateTime(), originalRequest.getRegistrationStart()))
-                .registrationEnd(eventTimesResolver.resolveRegistrationEnd(
-                        originalRequest.getStartDateTime(), originalRequest.getRegistrationEnd()))
-                .endDateTime(eventTimesResolver.resolveEventEnd(
-                        originalRequest.getStartDateTime(),
-                        EventType.valueOf(originalRequest.getEventType()),
-                        originalRequest.getEndDateTime()))
+                .registrationStart(timeResolver.resolveRegistrationStart(originalRequest))
+                .registrationEnd(timeResolver.resolveRegistrationEnd(originalRequest))
+                .endDateTime(timeResolver.resolveEventEnd(originalRequest))
                 .build();
     }
 
@@ -98,9 +96,7 @@ public class TeamEventServiceImpl implements TeamEventService {
 
     @Override
     public TeamEvent updateEventStatus(final Long eventId, final RegistrationStatus status) {
-
         // find event
         return null; // TODO
-
     }
 }
