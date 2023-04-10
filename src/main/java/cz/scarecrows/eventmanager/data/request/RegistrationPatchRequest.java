@@ -3,10 +3,22 @@
  */
 package cz.scarecrows.eventmanager.data.request;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.Value;
+
 /**
  * RegistrationPatchRequest
  *
  * @author <a href="mailto:petr.kadlec@finshape.com">Petr Kadlec</a>
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class RegistrationPatchRequest {
+
+    Long eventId;
+    Long memberId;
+    String status;
 }

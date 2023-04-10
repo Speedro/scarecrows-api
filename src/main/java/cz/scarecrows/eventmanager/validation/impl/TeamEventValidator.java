@@ -15,7 +15,9 @@ import cz.scarecrows.eventmanager.data.EventType;
 import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
 import cz.scarecrows.eventmanager.exception.EventDateValidationException;
 import cz.scarecrows.eventmanager.exception.MatchStartInLessThenTwoHoursException;
+import cz.scarecrows.eventmanager.exception.RegistrationClosedException;
 import cz.scarecrows.eventmanager.exception.UnsupportedEventTypeException;
+import cz.scarecrows.eventmanager.model.TeamEvent;
 import cz.scarecrows.eventmanager.validation.ITeamEventValidator;
 import lombok.extern.slf4j.Slf4j;
 
@@ -87,6 +89,15 @@ public class TeamEventValidator implements ITeamEventValidator {
             if (teamEventRequest.getStartDateTime().isBefore(nowPlusTwoHours)) {
                 throw new MatchStartInLessThenTwoHoursException("Requested match/training start date is in less then two hours.");
             }
+        }
+        return this;
+    }
+
+    @Override
+    public ITeamEventValidator validateRegistrationOpened(final TeamEvent teamEvent) {
+        final LocalDateTime now = LocalDateTime.now();
+        if (teamEvent.getRegistrationStart().isAfter(now) || teamEvent.getRegistrationEnd().isBefore(now)) {
+            throw new RegistrationClosedException("Registration for this event is closed");
         }
         return this;
     }

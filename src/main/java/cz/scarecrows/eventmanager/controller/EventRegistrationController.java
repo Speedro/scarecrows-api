@@ -18,16 +18,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import cz.scarecrows.eventmanager.data.EventRegistrationDto;
 import cz.scarecrows.eventmanager.data.EventRegistrationResult;
+import cz.scarecrows.eventmanager.data.RegistrationStatus;
 import cz.scarecrows.eventmanager.data.request.EventRegistrationRequest;
+import cz.scarecrows.eventmanager.data.request.PatchOperation;
 import cz.scarecrows.eventmanager.data.request.RegistrationPatchRequest;
+import cz.scarecrows.eventmanager.model.EventRegistration;
 import cz.scarecrows.eventmanager.service.EventRegistrationService;
+import cz.scarecrows.eventmanager.validation.impl.EventRegistrationValidator;
 import lombok.RequiredArgsConstructor;
 
 /**
- * EventRegistration
+ * EventRegistration controller
  *
- * @author <a href="mailto:petr.kadlec@finshape.com">Petr Kadlec</a>
+ * @author <a href="mailto:the.swdev@gmail.com">Petr Kadlec</a>
  */
 @RestController
 @RequestMapping(REGISTRATIONS)
@@ -36,22 +41,17 @@ import lombok.RequiredArgsConstructor;
 public class EventRegistrationController {
 
     private final EventRegistrationService eventRegistrationService;
-
-    @PostMapping
-    public ResponseEntity<EventRegistrationResult> createEventRegistration(@RequestBody final EventRegistrationRequest request) {
-        final EventRegistrationResult eventRegistrationResult = eventRegistrationService.createEventRegistration(request);
-        if (eventRegistrationResult.isSuccess()) {
-            return ResponseEntity.created(URI.create("???")).body(eventRegistrationResult);
-        }
-        return ResponseEntity.status(400).body(eventRegistrationResult);
-
-    }
+    private final EventRegistrationValidator validator;
 
     @PatchMapping
-    @RequestMapping(ID)
-    public ResponseEntity<EventRegistrationResult> patchEventRegistration(@PathVariable final Long id,
-                                                                          @RequestBody final RegistrationPatchRequest request) {
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+    public ResponseEntity<EventRegistrationDto> patchEventRegistration(@RequestBody final RegistrationPatchRequest request) {
+
+        validator.validateExistingRegistrationStatus(request.getStatus());
+
+        final EventRegistrationDto patchedRegistration = eventRegistrationService.updateEventRegistrationStatus(request.getEventId(),
+                request.getMemberId(), RegistrationStatus.valueOf(request.getStatus()));
+
+        return ResponseEntity.ok(patchedRegistration);
     }
 
 }
