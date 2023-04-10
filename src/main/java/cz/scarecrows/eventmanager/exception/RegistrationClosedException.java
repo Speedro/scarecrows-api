@@ -8,9 +8,9 @@ package cz.scarecrows.eventmanager.exception;
  *
  * @author <a href="mailto:petr.kadlec@finshape.com">Petr Kadlec</a>
  */
-public class RegistrationNotYetStartedException extends IllegalStateException {
+public class RegistrationClosedException extends IllegalStateException {
 
-    public RegistrationNotYetStartedException(final String message) {
+    public RegistrationClosedException(final String message) {
         super(message);
     }
 }

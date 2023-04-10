@@ -4,13 +4,18 @@
 package cz.scarecrows.eventmanager.validation.impl;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
+import cz.scarecrows.eventmanager.data.RegistrationStatus;
 import cz.scarecrows.eventmanager.data.request.EventRegistrationRequest;
 import cz.scarecrows.eventmanager.exception.EntityNotFoundException;
-import cz.scarecrows.eventmanager.exception.RegistrationNotYetStartedException;
+import cz.scarecrows.eventmanager.exception.RegistrationClosedException;
 import cz.scarecrows.eventmanager.exception.UniqueRegistrationException;
+import cz.scarecrows.eventmanager.exception.UnknownRegistrationStatusException;
+import cz.scarecrows.eventmanager.model.EventRegistration;
 import cz.scarecrows.eventmanager.repository.EventRegistrationRepository;
 import cz.scarecrows.eventmanager.repository.TeamEventRepository;
 import cz.scarecrows.eventmanager.repository.TeamMemberRepository;
@@ -52,7 +57,7 @@ public class EventRegistrationValidator implements IEventRegistrationValidator {
     public EventRegistrationValidator eventExists(final EventRegistrationRequest request) {
         teamEventRepository.findById(request.getEventId()).orElseThrow(() -> {
             log.error("Requested event does not exist.");
-            throw new EntityNotFoundException("Requested event does not exist.", "Team event");
+            return new EntityNotFoundException("Requested event does not exist.", "Team event");
         });
         return this;
     }
@@ -61,16 +66,18 @@ public class EventRegistrationValidator implements IEventRegistrationValidator {
     public EventRegistrationValidator userExists(final EventRegistrationRequest request) {
         teamMemberRepository.findById(request.getTeamMemberId()).orElseThrow(() -> {
             log.error("User with given id doesn't exist");
-            throw new EntityNotFoundException("User with given id doesn't exist", "Team member");
+            return new EntityNotFoundException("User with given id doesn't exist", "Team member");
         });
         return this;
     }
 
     @Override
-    public EventRegistrationValidator eventRegistrationAllowed(final LocalDateTime dateTime) {
-        final LocalDateTime now = LocalDateTime.now();
-        if (now.isBefore(dateTime)) {
-            throw new RegistrationNotYetStartedException("Registration for given event has not been started yet");
+    public EventRegistrationValidator validateExistingRegistrationStatus(final String registrationStatus) {
+        final Optional<RegistrationStatus> res = Arrays.stream(RegistrationStatus.values())
+                        .filter(it -> it.name().equals(registrationStatus))
+                        .findFirst();
+        if (res.isEmpty()) {
+            throw new UnknownRegistrationStatusException("Registration status: " + registrationStatus + " is not supported");
         }
         return this;
     }

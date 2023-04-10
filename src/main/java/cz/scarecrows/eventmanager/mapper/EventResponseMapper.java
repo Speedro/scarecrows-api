@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 public class EventResponseMapper implements ResponseMapper {
 
     private final EventRegistrationService eventRegistrationService;
-    private final TeamMemberService teamMemberService;
+    private final EventRegistrationMapper eventRegistrationMapper;
     private final EntityMapper entityMapper;
 
     public TeamEventDetailResponseDto toResponseDto(final TeamEvent teamEvent) {
@@ -41,21 +41,13 @@ public class EventResponseMapper implements ResponseMapper {
 
         final List<EventRegistrationDto> eventRegistrations = eventRegistrationService.getEventRegistrations(teamEvent.getEventId())
                 .stream()
-                .map(this::toEventRegistrationDto)
+                .map(eventRegistrationMapper::toEventRegistrationDto)
                 .collect(Collectors.toList());
 
         return TeamEventDetailResponseDto.builder()
                 .teamEventDto(teamEventDto)
                 .registrationsList(eventRegistrations)
                 .build();
-    }
-
-    private EventRegistrationDto toEventRegistrationDto(final EventRegistration eventRegistration) {
-        final TeamMemberDto teamMemberDto =teamMemberService.getTeamMemberById(eventRegistration.getTeamMemberId())
-                .map(entityMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException("Entity not found", "Team member"));
-
-        return new EventRegistrationDto(eventRegistration.getTeamEventId(), teamMemberDto, eventRegistration.getRegistrationStatus());
     }
 
 }
