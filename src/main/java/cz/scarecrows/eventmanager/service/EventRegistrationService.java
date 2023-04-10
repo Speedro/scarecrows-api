@@ -8,9 +8,11 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import cz.scarecrows.eventmanager.data.EventRegistrationDto;
 import cz.scarecrows.eventmanager.data.EventRegistrationResult;
 import cz.scarecrows.eventmanager.data.RegistrationStatus;
 import cz.scarecrows.eventmanager.data.request.EventRegistrationRequest;
+import cz.scarecrows.eventmanager.data.request.RegistrationPatchRequest;
 import cz.scarecrows.eventmanager.model.EventRegistration;
 
 /**
@@ -25,7 +27,7 @@ public interface EventRegistrationService {
 
     List<EventRegistration> getEventRegistrations(@NotNull Long eventId);
 
-    EventRegistration updateEventRegistrationStatus(@NotNull Long eventId,
+    EventRegistrationDto updateEventRegistrationStatus(@NotNull Long eventId,
                                                     @NotNull Long memberId,
                                                     @NotNull RegistrationStatus registrationStatus);
 }

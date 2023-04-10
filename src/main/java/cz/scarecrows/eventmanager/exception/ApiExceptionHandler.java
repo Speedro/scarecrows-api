@@ -21,11 +21,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = { RegistrationNotYetStartedException.class })
-    public ResponseEntity<ValidationError> handleValidationException(final RegistrationNotYetStartedException exception) {
+    @ExceptionHandler(value = { RegistrationClosedException.class })
+    public ResponseEntity<ValidationError> handleValidationException(final RegistrationClosedException exception) {
         log.error("Validation failed {}", exception.getMessage());
         final ValidationError validationResult = ValidationError.builder()
-                .message("Registration not yet started")
+                .message(exception.getMessage())
                 .validationErrorCode(ValidationErrorCode.VAL_ERR_01)
                 .build();
 
@@ -88,6 +88,26 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         final ValidationError validationResult = ValidationError.builder()
                 .message(exception.getMessage())
                 .validationErrorCode(ValidationErrorCode.VAL_ERR_03)
+                .build();
+        return new ResponseEntity<>(validationResult, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(value = { UnknownRegistrationStatusException.class })
+    protected ResponseEntity<ValidationError> handleUnknownRegistrationStatusException(final UnknownRegistrationStatusException exception) {
+        log.error("Validation failed {}", exception.getMessage());
+        final ValidationError validationResult = ValidationError.builder()
+                .message(exception.getMessage())
+                .validationErrorCode(ValidationErrorCode.VAL_ERR_04)
+                .build();
+        return new ResponseEntity<>(validationResult, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(value = { TransitionNotAllowedException.class })
+    protected ResponseEntity<ValidationError> handleTransitionNotAllowedException(final TransitionNotAllowedException exception) {
+        log.error("Validation failed {}", exception.getMessage());
+        final ValidationError validationResult = ValidationError.builder()
+                .message(exception.getMessage())
+                .validationErrorCode(ValidationErrorCode.VAL_ERR_01)
                 .build();
         return new ResponseEntity<>(validationResult, HttpStatus.CONFLICT);
     }

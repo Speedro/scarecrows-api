@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import javax.validation.constraints.NotNull;
 
 import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
+import cz.scarecrows.eventmanager.model.TeamEvent;
 
 /**
  * ITeamEventValidator
@@ -23,5 +24,7 @@ public interface ITeamEventValidator extends IValidator {
     ITeamEventValidator validateEventType(@NotNull TeamEventRequest teamEventRequest);
 
     ITeamEventValidator validateMatchStartsInMoreThanTwoHours(@NotNull final LocalDateTime now, @NotNull TeamEventRequest teamEventRequest);
+
+    ITeamEventValidator validateRegistrationOpened(@NotNull TeamEvent teamEvent);
 
 }

@@ -6,7 +6,9 @@ package cz.scarecrows.eventmanager.mapper;
 
 import javax.validation.constraints.NotNull;
 
+import cz.scarecrows.eventmanager.data.EventRegistrationDto;
 import cz.scarecrows.eventmanager.data.response.TeamEventDetailResponseDto;
+import cz.scarecrows.eventmanager.model.EventRegistration;
 import cz.scarecrows.eventmanager.model.TeamEvent;
 
 /**
