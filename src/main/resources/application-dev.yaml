@@ -8,3 +8,8 @@ spring:
     password: postgres
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
+
+devspot:
+  kafka:
+    broker:
+      url: localhost:29092

@@ -22,6 +22,7 @@ val mapstructVersion = "1.5.0.Final"
 val liquibaseVersion = "4.18.0"
 val swaggerIntegrationVersion = "3.0.0"
 val okHttpClientVersion = "5.0.0-alpha.10"
+val springKafkaVersion = "2.8.0"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation")
@@ -31,6 +32,7 @@ dependencies {
 	implementation("org.mapstruct:mapstruct:$mapstructVersion")
 	implementation("io.springfox:springfox-boot-starter:$swaggerIntegrationVersion")
 	implementation("com.squareup.okhttp3:okhttp:$okHttpClientVersion")
+	implementation("org.springframework.kafka:spring-kafka:$springKafkaVersion")
 	compileOnly("org.mapstruct:mapstruct-processor:$mapstructVersion")
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("org.postgresql:postgresql")

@@ -5,6 +5,7 @@ package cz.scarecrows.eventmanager.repository;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 
@@ -28,4 +29,6 @@ public interface TeamMemberRepository extends JpaRepository<TeamMember, Long> {
     Set<Long> findActiveMemberIds();
 
     Optional<TeamMember> findByNumberAndStatus(short number, @NotNull TeamMemberStatus status);
+
+    Optional<TeamMember> findByRegistrationId(String registraionId);
 }

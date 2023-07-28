@@ -33,4 +33,6 @@ public class TeamMember {
     @Column(name = "member_status")
     @Enumerated(EnumType.STRING)
     private TeamMemberStatus status;
+    @Column(name = "registration_id")
+    private String registrationId;
 }
