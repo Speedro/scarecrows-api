@@ -20,6 +20,7 @@ import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import cz.scarecrows.eventmanager.kafka.impl.UserRegistrationDeserializer;
 
 @EnableKafka
 @Configuration
@@ -33,7 +34,7 @@ public class KafkaConfiguration {
         return Map.of(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092",
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class,
-                ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class,
+                ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, UserRegistrationDeserializer.class,
                 ConsumerConfig.GROUP_ID_CONFIG, "groupId"
         );
     }
