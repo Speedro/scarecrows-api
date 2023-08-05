@@ -8,3 +8,16 @@ spring:
     password: postgres
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+
+rabbitmq:
+  queue:
+    name: "registration-request"
+  exchange:
+    name: "registration-request-exchange"
+  routing:
+    key: "registration-requests-key"
