@@ -16,7 +16,7 @@ public class RabbitMQProducer {
 
     public void sendMessage(final MemberRegistrationRequest registrationRequest) {
         log.debug("Sending registration request {}", registrationRequest);
-        rabbitTemplate.convertAndSend("registration-request-exchange", "registration-status-update", registrationRequest);
+        rabbitTemplate.convertAndSend("registration-request-exchange", "registration-requests-key", registrationRequest);
     }
 
 }
