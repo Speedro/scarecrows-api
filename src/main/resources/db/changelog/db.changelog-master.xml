@@ -89,4 +89,9 @@
             <column name="member_status" type="varchar(50)" />
         </addColumn>
     </changeSet>
+    <changeSet id="202307202022" author="Petr Kadlec">
+        <addColumn tableName="sc_team_member">
+            <column name="registration_id" type="varchar(50)" />
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

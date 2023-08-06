@@ -10,5 +10,5 @@ package cz.scarecrows.eventmanager.data;
  */
 public enum TeamMemberStatus {
 
-    ACTIVE
+    ACTIVE, PENDING, REJECTED
 }
