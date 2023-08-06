@@ -1,0 +1,18 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+FE -> SCARECROWS_API: Sends username and passowrd
+activate SCARECROWS_API
+    SCARECROWS_API -> AUTH_SERVICE: Passes given credentials
+    activate AUTH_SERVICE
+    AUTH_SERVICE -> AUTH_SERVICE: Performs validations
+        alt Validations fail
+            SCARECROWS_API <-- AUTH_SERVICE: Returns 403 Not Authorized
+        end
+    AUTH_SERVICE -> AUTH_SERVICE: Generates JWT
+    SCARECROWS_API <-- AUTH_SERVICE: Return 200 OK
+    deactivate AUTH_SERVICE
+    FE <-- SCARECROWS_API: JWT stored
+@enduml

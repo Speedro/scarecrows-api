@@ -1,0 +1,42 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+actor User as Admin
+Admin -> FE: Successfully logs in
+FE -> SCARECROWS_API: POST /api/v1/members
+activate SCARECROWS_API
+    database SCARECROWS_DB as SCARECROWS_DB
+    SCARECROWS_API -> SCARECROWS_API: Perform validations
+    alt Validations failed
+        FE <-- SCARECROWS_API: Return error
+        Admin <-- FE: Validations failed message
+    end
+    queue Queue as Broker
+    SCARECROWS_API -> Broker: queue "registration-request"
+    AUTH_SERVICE <-> Broker: Reads the request
+    activate AUTH_SERVICE
+        database AUTH_DB as AUTH_DB
+        AUTH_SERVICE -> AUTH_DB: Creates new registration
+        activate AUTH_DB
+            return Registration PENDING
+        deactivate AUTH_DB
+        Admin <-- AUTH_SERVICE: Sends confirmation email
+    deactivate AUTH_SERVICE
+deactivate SCARECROWS_API
+Admin -> AUTH_SERVICE: Clicks the confirmation link
+activate AUTH_SERVICE
+    AUTH_SERVICE -> AUTH_DB: Updates registration
+    activate AUTH_DB
+        return Registration CONFIRMED
+    deactivate AUTH_DB
+    AUTH_SERVICE -> Broker: queue "registration-status"
+deactivate AUTH_SERVICE
+
+activate SCARECROWS_API
+    SCARECROWS_API <-> Broker: Reads the status update message
+    SCARECROWS_API -> SCARECROWS_DB: Updates team member status
+deactivate
+
+
+@enduml
