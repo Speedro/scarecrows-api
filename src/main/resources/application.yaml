@@ -1,6 +1,6 @@
 app:
   server:
-    port: {$PORT}
+    port: ${PORT}
 
 spring:
   datasource:
@@ -9,3 +9,5 @@ spring:
     password: ${JDBC_PASSWORD}
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
+  rabbitmq:
+    uri: ${RABBITMQ_URI}
