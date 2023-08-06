@@ -6,6 +6,7 @@ package cz.scarecrows.eventmanager.repository;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,4 +29,6 @@ public interface TeamMemberRepository extends JpaRepository<TeamMember, Long> {
     Set<Long> findActiveMemberIds();
 
     Optional<TeamMember> findByNumberAndStatus(short number, @NotNull TeamMemberStatus status);
+
+    Optional<TeamMember> findByRegistrationId(@NotEmpty String registrationId);
 }

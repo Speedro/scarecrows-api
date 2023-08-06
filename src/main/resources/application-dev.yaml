@@ -8,3 +8,7 @@ spring:
     password: postgres
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
+  rabbitmq:
+    uri: "amqps://admin:admin@localhost:5672"
+
+

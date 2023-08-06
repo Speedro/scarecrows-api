@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cz.scarecrows.eventmanager.data.TeamMemberDto;
 import cz.scarecrows.eventmanager.data.request.TeamMemberRequest;
+import cz.scarecrows.eventmanager.data.response.UserDetailDto;
 import cz.scarecrows.eventmanager.mapper.EntityMapper;
 import cz.scarecrows.eventmanager.model.TeamMember;
 import cz.scarecrows.eventmanager.service.TeamMemberService;
