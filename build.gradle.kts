@@ -24,6 +24,7 @@ val swaggerIntegrationVersion = "3.0.0"
 val okHttpClientVersion = "5.0.0-alpha.10"
 
 dependencies {
+	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-amqp")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-web")
