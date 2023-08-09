@@ -13,7 +13,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.cors().disable().csrf().and().authorizeHttpRequests()
-                .mvcMatchers(HttpMethod.GET, "/api/v1/*").permitAll()
-                .mvcMatchers(HttpMethod.POST, "/api/v1/*").permitAll();
+                .mvcMatchers(HttpMethod.GET, "*").permitAll()
+                .mvcMatchers(HttpMethod.POST, "*").permitAll();
     }
 }

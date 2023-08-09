@@ -39,6 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(MEMBERS)
+@CrossOrigin
 public class TeamMemberController {
 
     private final TeamMemberService teamMemberService;
