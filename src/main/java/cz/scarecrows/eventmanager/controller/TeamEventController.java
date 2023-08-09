@@ -35,7 +35,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping(EVENTS)
 @RequiredArgsConstructor
-@CrossOrigin({"*"})
 public class TeamEventController {
 
     private final EntityMapper entityMapper;
