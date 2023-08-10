@@ -35,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping(EVENTS)
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin(origins = "https://scarecrows-fe-2320802b8470.herokuapp.com")
 public class TeamEventController {
 
     private final EntityMapper entityMapper;
