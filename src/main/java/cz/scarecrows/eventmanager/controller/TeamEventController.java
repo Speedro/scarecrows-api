@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cz.scarecrows.eventmanager.data.TeamEventDto;
-import cz.scarecrows.eventmanager.data.request.EventDetailRequest;
 import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
 import cz.scarecrows.eventmanager.data.response.TeamEventDetailResponseDto;
 import cz.scarecrows.eventmanager.mapper.EntityMapper;
@@ -54,9 +54,9 @@ public class TeamEventController {
     }
 
     @GetMapping(ID)
-    public ResponseEntity<TeamEventDetailResponseDto> getEventById(@PathVariable final Long id, @RequestBody EventDetailRequest request) {
+    public ResponseEntity<TeamEventDetailResponseDto> getEventById(@PathVariable final Long id, @RequestParam final Long memberId) {
         final Optional<TeamEvent> teamEvent = teamEventService.getEventById(id);
-        eventRegistrationService.updateEventRegistrationStatus(id, request.getUserId(), DISPLAYED);
+        eventRegistrationService.updateEventRegistrationStatus(id, memberId, DISPLAYED);
 
         return teamEvent.map(event -> ResponseEntity.ok(responseMapper.toResponseDto(event)))
                 .orElseGet(() -> {

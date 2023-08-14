@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import cz.scarecrows.eventmanager.data.TeamMemberStatus;
+import cz.scarecrows.eventmanager.data.request.AuthRequestFactory;
 import cz.scarecrows.eventmanager.data.request.MemberRegistrationRequest;
 import cz.scarecrows.eventmanager.data.request.TeamMemberRequest;
 import cz.scarecrows.eventmanager.mapper.EntityMapper;
@@ -67,18 +68,10 @@ public class TeamMemberServiceImpl implements TeamMemberService {
         teamMember.setStatus(TeamMemberStatus.PENDING);
         teamMember.setRegistrationId(registrationId);
 
-        // TODO move this to a factory class, the Test1234 password should be configurable via property file
-        final MemberRegistrationRequest memberRegistrationRequest = MemberRegistrationRequest.builder()
-                .appId("SCARECROWS_API")
-                .username(createUsername(teamMemberRequest.getFirstName(), teamMemberRequest.getLastName()))
-                .password("DEFAULT_PASSWORD")
-                .authorities("USER")
-                .registrationId(registrationId)
-                .build();
         try {
-            messageProducer.sendMessage(memberRegistrationRequest);
+            messageProducer.sendMessage(AuthRequestFactory.createMemberRegistrationRequest(teamMemberRequest, registrationId));
         } catch (Exception e) {
-            // TODO
+            log.error("An error occurred when sending registration request to queue: {}", e.getMessage());
         }
         return teamMemberRepository.save(teamMember);
     }
@@ -102,9 +95,5 @@ public class TeamMemberServiceImpl implements TeamMemberService {
                     teamMemberRepository.save(teamMember);
                     return teamMember;
                 }).orElse(null);
-    }
-
-    private String createUsername(final String firstName, final String lastName) {
-        return lastName.substring(0, lastName.length() - 1).concat(firstName.substring(0,1)).toLowerCase();
     }
 }

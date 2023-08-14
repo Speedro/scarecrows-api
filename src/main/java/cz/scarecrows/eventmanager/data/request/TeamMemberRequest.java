@@ -23,5 +23,5 @@ public class TeamMemberRequest {
     PlayerPosition position;
     boolean amateur;
     short number;
-
+    boolean admin;
 }
