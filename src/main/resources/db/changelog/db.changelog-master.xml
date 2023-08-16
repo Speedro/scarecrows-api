@@ -94,4 +94,9 @@
             <column name="registration_id" type="varchar(50)" />
         </addColumn>
     </changeSet>
+    <changeSet id="202308162041" author="Petr Kadlec">
+        <addColumn tableName="sc_team_event">
+            <column name="registrations_locked" type="boolean" defaultValue="false" />
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

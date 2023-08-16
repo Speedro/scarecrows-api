@@ -4,6 +4,7 @@
 package cz.scarecrows.eventmanager.service.impl;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.transaction.Transactional;
 
@@ -92,7 +93,9 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
 
         final TeamEvent teamEvent = teamEventRepository.findById(eventId).orElseThrow();
 
-        teamEventValidator.validateRegistrationOpened(teamEvent);
+        if (!Objects.equals(RegistrationStatus.DISPLAYED, registrationStatus)) {
+            teamEventValidator.validateRegistrationOpened(teamEvent);
+        }
 
         final EventRegistration patchedRegistration = registrationTransitionService.setStatus(registration, registrationStatus);
 
