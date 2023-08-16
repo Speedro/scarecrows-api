@@ -43,4 +43,7 @@ public class TeamEvent {
     private String place;
 
     private String opponent;
+
+    @Column(name = "registrations_locked")
+    private Boolean registrationsLocked;
 }

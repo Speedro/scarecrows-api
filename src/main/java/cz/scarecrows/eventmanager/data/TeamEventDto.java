@@ -24,4 +24,5 @@ public class TeamEventDto {
     String description;
     String place;
     String opponent;
+    Boolean registrationsLocked;
 }
