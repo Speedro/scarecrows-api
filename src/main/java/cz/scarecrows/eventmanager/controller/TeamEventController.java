@@ -4,9 +4,12 @@ import static cz.scarecrows.eventmanager.data.RegistrationStatus.DISPLAYED;
 import static cz.scarecrows.eventmanager.util.RestConstants.EVENTS;
 import static cz.scarecrows.eventmanager.util.RestConstants.ID;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +51,7 @@ public class TeamEventController {
         final List<TeamEventDto> teamEvents = teamEventService.getTeamEvents()
                 .stream()
                 .map(entityMapper::toDto)
+                .sorted(Comparator.comparing(TeamEventDto::getStartDateTime))
                 .collect(Collectors.toList());
         log.info("Obtained {} team events.", teamEvents.size());
         return ResponseEntity.ok(teamEvents);
@@ -66,7 +70,7 @@ public class TeamEventController {
     }
 
     @PostMapping
-    public ResponseEntity<TeamEventDto> createEvent(@RequestBody final TeamEventRequest teamEventRequest) {
+    public ResponseEntity<TeamEventDto> createEvent(@Valid @RequestBody final TeamEventRequest teamEventRequest) {
         final TeamEvent teamEvent = teamEventService.createTeamEvent(teamEventRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(entityMapper.toDto(teamEvent));
     }
