@@ -8,5 +8,5 @@ package cz.scarecrows.eventmanager.data;
  */
 public enum EventType {
 
-    MATCH, TRAINING, PUB, OTHER
+    MATCH, FRIENDLY_MATCH, TRAINING, PUB, OTHER
 }
