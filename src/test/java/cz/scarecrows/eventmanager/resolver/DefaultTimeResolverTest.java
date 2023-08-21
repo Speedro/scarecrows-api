@@ -1,6 +1,7 @@
 package cz.scarecrows.eventmanager.resolver;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 
 import org.junit.jupiter.api.Assertions;
@@ -23,11 +24,9 @@ public class DefaultTimeResolverTest {
     @Test
     @DisplayName("Event starting in 5 hours")
     public void createMatchStartingToday() {
-        final LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-        final LocalDateTime eventStart = now.plusHours(5);
-        final LocalDateTime expectedEventEnd = eventStart.plusDays(1);
-        final LocalDateTime expectedRegistrationStart = now;
-        final LocalDateTime expectedRegistrationEnd = eventStart;
+        final ZonedDateTime now = ZonedDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+        final ZonedDateTime eventStart = now.plusHours(5);
+        final ZonedDateTime expectedEventEnd = eventStart.plusDays(1);
 
         final TeamEventRequest request = TeamEventRequest.builder().startDateTime(eventStart).build();
 
@@ -35,19 +34,17 @@ public class DefaultTimeResolverTest {
         final LocalDateTime registrationStart = timeResolver.resolveRegistrationStart(request);
         final LocalDateTime registrationEnd = timeResolver.resolveRegistrationEnd(request);
 
-        Assertions.assertEquals(expectedEventEnd, eventEnd);
-        Assertions.assertEquals(expectedRegistrationStart, registrationStart);
-        Assertions.assertEquals(expectedRegistrationEnd, registrationEnd);
+        Assertions.assertEquals(expectedEventEnd.toLocalDateTime(), eventEnd);
+        Assertions.assertEquals(now.toLocalDateTime(), registrationStart);
+        Assertions.assertEquals(eventStart.toLocalDateTime(), registrationEnd);
     }
 
     @Test
     @DisplayName("Match starting in 2 days")
     public void createMatchStartingInTwoDays() {
-        final LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-        final LocalDateTime eventStart = now.plusDays(2);
-        final LocalDateTime expectedEventEnd = eventStart.plusDays(1);
-        final LocalDateTime expectedRegistrationStart = now;
-        final LocalDateTime expectedRegistrationEnd = eventStart;
+        final ZonedDateTime now = ZonedDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+        final ZonedDateTime eventStart = now.plusDays(2);
+        final ZonedDateTime expectedEventEnd = eventStart.plusDays(1);
 
         final TeamEventRequest request = TeamEventRequest.builder().startDateTime(eventStart).build();
 
@@ -55,19 +52,17 @@ public class DefaultTimeResolverTest {
         final LocalDateTime registrationStart = timeResolver.resolveRegistrationStart(request);
         final LocalDateTime registrationEnd = timeResolver.resolveRegistrationEnd(request);
 
-        Assertions.assertEquals(expectedEventEnd, eventEnd);
-        Assertions.assertEquals(expectedRegistrationStart, registrationStart);
-        Assertions.assertEquals(expectedRegistrationEnd, registrationEnd);
+        Assertions.assertEquals(expectedEventEnd.toLocalDateTime(), eventEnd);
+        Assertions.assertEquals(now.toLocalDateTime(), registrationStart);
+        Assertions.assertEquals(eventStart.toLocalDateTime(), registrationEnd);
     }
 
     @Test
     @DisplayName("Match starting in a week")
     public void createMatchStartingInAWeek() {
-        final LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-        final LocalDateTime eventStart = now.plusWeeks(1);
-        final LocalDateTime expectedEventEnd = eventStart.plusDays(1);
-        final LocalDateTime expectedRegistrationStart = now;
-        final LocalDateTime expectedRegistrationEnd = eventStart;
+        final ZonedDateTime now = ZonedDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+        final ZonedDateTime eventStart = now.plusWeeks(1);
+        final ZonedDateTime expectedEventEnd = eventStart.plusDays(1);
 
         final TeamEventRequest request = TeamEventRequest.builder().startDateTime(eventStart).build();
 
@@ -75,9 +70,9 @@ public class DefaultTimeResolverTest {
         final LocalDateTime registrationStart = timeResolver.resolveRegistrationStart(request);
         final LocalDateTime registrationEnd = timeResolver.resolveRegistrationEnd(request);
 
-        Assertions.assertEquals(expectedEventEnd, eventEnd);
-        Assertions.assertEquals(expectedRegistrationStart, registrationStart);
-        Assertions.assertEquals(expectedRegistrationEnd, registrationEnd);
+        Assertions.assertEquals(expectedEventEnd.toLocalDateTime(), eventEnd);
+        Assertions.assertEquals(now.toLocalDateTime(), registrationStart);
+        Assertions.assertEquals(eventStart.toLocalDateTime(), registrationEnd);
     }
 
 }

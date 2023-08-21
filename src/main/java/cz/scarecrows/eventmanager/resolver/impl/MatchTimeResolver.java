@@ -17,7 +17,7 @@ public class MatchTimeResolver implements EventTimeResolver {
 
     @Override
     public LocalDateTime resolveRegistrationEnd(final TeamEventRequest request) {
-        final LocalDateTime eventStart = request.getStartDateTime();
+        final LocalDateTime eventStart = request.getStartDateTime().toLocalDateTime();
         if (matchStartInLessThenThreeDays(eventStart)) {
             return eventStart.minusHours(2);
         }
@@ -30,6 +30,6 @@ public class MatchTimeResolver implements EventTimeResolver {
 
     @Override
     public LocalDateTime resolveEventEnd(final TeamEventRequest request) {
-        return request.getStartDateTime().plusHours(2);
+        return request.getStartDateTime().plusHours(2).toLocalDateTime();
     }
 }

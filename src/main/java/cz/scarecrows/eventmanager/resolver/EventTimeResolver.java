@@ -39,7 +39,7 @@ public interface EventTimeResolver {
      * @return date and time of when the registration ends
      */
     default LocalDateTime resolveEventEnd(@NotNull final TeamEventRequest request) {
-        return Objects.requireNonNullElse(request.getEndDateTime(), request.getStartDateTime().plusDays(1)).truncatedTo(ChronoUnit.MINUTES);
+        return Objects.requireNonNullElse(request.getEndDateTime(), request.getStartDateTime().plusDays(1).toLocalDateTime()).truncatedTo(ChronoUnit.MINUTES);
     }
 
 }
