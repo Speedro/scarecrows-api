@@ -92,6 +92,10 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
                 .orElseThrow(() -> new EntityNotFoundException("Registration not found.", "Event registration"));
 
         final TeamEvent teamEvent = teamEventRepository.findById(eventId).orElseThrow();
+        if (teamEvent.getRegistrationsLocked()) {
+            log.debug("Registrations are locked for this event, no change of status.");
+            return eventRegistrationMapper.toEventRegistrationDto(registration);
+        }
 
         if (!Objects.equals(RegistrationStatus.DISPLAYED, registrationStatus)) {
             teamEventValidator.validateRegistrationOpened(teamEvent);
