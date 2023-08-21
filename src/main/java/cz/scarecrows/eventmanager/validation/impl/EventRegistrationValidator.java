@@ -6,6 +6,7 @@ package cz.scarecrows.eventmanager.validation.impl;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
@@ -20,6 +21,7 @@ import cz.scarecrows.eventmanager.repository.EventRegistrationRepository;
 import cz.scarecrows.eventmanager.repository.TeamEventRepository;
 import cz.scarecrows.eventmanager.repository.TeamMemberRepository;
 import cz.scarecrows.eventmanager.validation.IEventRegistrationValidator;
+import cz.scarecrows.eventmanager.validation.data.ValidationError;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +40,7 @@ public class EventRegistrationValidator implements IEventRegistrationValidator {
     private final EventRegistrationRepository registrationRepository;
     private final TeamMemberRepository teamMemberRepository;
     private final TeamEventRepository teamEventRepository;
+    private final Set<ValidationError> validationErrorSet;
 
     @Override
     public EventRegistrationValidator userHasRightsForEvent(final EventRegistrationRequest request) {
