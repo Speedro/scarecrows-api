@@ -35,7 +35,7 @@ public class TeamEventValidator implements ITeamEventValidator {
         final LocalDateTime now = LocalDateTime.now();
         final LocalDateTime registrationStart = teamEventRequest.getRegistrationStart();
         final LocalDateTime registrationEnd = teamEventRequest.getRegistrationEnd();
-        final LocalDateTime eventStart = teamEventRequest.getStartDateTime().toLocalDateTime();
+        final LocalDateTime eventStart = teamEventRequest.getStartDateTime();
         final LocalDateTime eventEnd = teamEventRequest.getEndDateTime();
 
         // match can't created for eventStart < now.plusHours(2)
@@ -86,7 +86,7 @@ public class TeamEventValidator implements ITeamEventValidator {
     public ITeamEventValidator validateMatchStartsInMoreThanTwoHours(final LocalDateTime now, final TeamEventRequest teamEventRequest) {
         if (List.of(EventType.MATCH.name(), EventType.TRAINING.name()).contains(teamEventRequest.getEventType())) {
             final LocalDateTime nowPlusTwoHours = now.plusHours(2);
-            if (teamEventRequest.getStartDateTime().toLocalDateTime().isBefore(nowPlusTwoHours)) {
+            if (teamEventRequest.getStartDateTime().isBefore(nowPlusTwoHours)) {
                 throw new MatchStartInLessThenTwoHoursException("Requested match/training start date is in less then two hours.");
             }
         }

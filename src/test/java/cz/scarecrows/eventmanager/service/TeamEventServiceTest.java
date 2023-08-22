@@ -4,7 +4,7 @@
 package cz.scarecrows.eventmanager.service;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
@@ -32,11 +32,11 @@ public class TeamEventServiceTest extends AbstractIntegrationTest {
     @DisplayName("Test creation of an event")
     public void testCreateTeamEvent_expectSuccess() {
 
-        final ZonedDateTime now = ZonedDateTime.now().truncatedTo(ChronoUnit.MINUTES);
-        final ZonedDateTime eventStart = now.plus(3L, ChronoUnit.DAYS);
-        final LocalDateTime eventEnd = eventStart.toLocalDateTime().plus(2, ChronoUnit.HOURS);
-        final LocalDateTime registrationStart = now.plus(1, ChronoUnit.DAYS).toLocalDateTime();
-        final LocalDateTime registrationEnd = eventStart.toLocalDateTime().minus(1, ChronoUnit.DAYS);
+        final LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+        final LocalDateTime eventStart = now.plus(3L, ChronoUnit.DAYS);
+        final LocalDateTime eventEnd = eventStart.plus(2, ChronoUnit.HOURS);
+        final LocalDateTime registrationStart = now.plus(1, ChronoUnit.DAYS);
+        final LocalDateTime registrationEnd = eventStart.minus(1, ChronoUnit.DAYS);
 
         final String eventType = "MATCH";
         final String description = "Event description";
@@ -59,7 +59,7 @@ public class TeamEventServiceTest extends AbstractIntegrationTest {
         final TeamEvent teamEvent = tested.createTeamEvent(teamEventRequest);
 
         Assertions.assertEquals(eventType, teamEvent.getEventType());
-        Assertions.assertEquals(eventStart.toLocalDateTime(), teamEvent.getStartDateTime());
+        Assertions.assertEquals(eventStart, teamEvent.getStartDateTime());
         Assertions.assertEquals(eventEnd, teamEvent.getEndDateTime());
         Assertions.assertEquals(registrationStart, teamEvent.getRegistrationStart());
         Assertions.assertEquals(registrationEnd, teamEvent.getRegistrationEnd());

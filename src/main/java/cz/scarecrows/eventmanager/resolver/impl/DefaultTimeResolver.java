@@ -16,7 +16,7 @@ public class DefaultTimeResolver implements EventTimeResolver {
 
     @Override
     public LocalDateTime resolveRegistrationEnd(final TeamEventRequest request) {
-        return request.getStartDateTime().toLocalDateTime();
+        return request.getStartDateTime();
     }
 
     @Override
