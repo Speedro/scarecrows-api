@@ -37,7 +37,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping(REGISTRATIONS)
 @RequiredArgsConstructor
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class EventRegistrationController {
 
     private final EventRegistrationService eventRegistrationService;
