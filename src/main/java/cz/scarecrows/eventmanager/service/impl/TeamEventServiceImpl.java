@@ -11,11 +11,14 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import cz.scarecrows.eventmanager.data.EventType;
 import cz.scarecrows.eventmanager.data.RegistrationStatus;
 import cz.scarecrows.eventmanager.data.request.EventRegistrationRequest;
 import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
+import cz.scarecrows.eventmanager.data.request.TeamEventUpdateRequest;
+import cz.scarecrows.eventmanager.exception.EntityNotFoundException;
 import cz.scarecrows.eventmanager.mapper.EntityMapper;
 import cz.scarecrows.eventmanager.model.TeamEvent;
 import cz.scarecrows.eventmanager.repository.TeamEventRepository;
@@ -95,8 +98,20 @@ public class TeamEventServiceImpl implements TeamEventService {
     }
 
     @Override
-    public TeamEvent updateEventStatus(final Long eventId, final RegistrationStatus status) {
-        // find event
-        return null; // TODO
+    public TeamEvent updateTeamEvent(final Long eventId, final TeamEventUpdateRequest request) {
+        final Optional<TeamEvent> teamEvent = teamEventRepository.findById(eventId);
+        if (teamEvent.isPresent()) {
+            final TeamEvent event = teamEvent.get();
+            event.setDescription(request.getDescription());
+            event.setEventType(request.getTitle());
+            event.setOpponent(request.getOpponent());
+            event.setPlace(request.getPlace());
+
+            teamEventRepository.save(event);
+
+            return event;
+        }
+
+        throw new EntityNotFoundException("Team event not found with given id.", "TeamEvent");
     }
 }

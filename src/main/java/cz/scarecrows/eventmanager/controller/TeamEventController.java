@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cz.scarecrows.eventmanager.data.TeamEventDto;
 import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
+import cz.scarecrows.eventmanager.data.request.TeamEventUpdateRequest;
 import cz.scarecrows.eventmanager.data.response.TeamEventDetailResponseDto;
 import cz.scarecrows.eventmanager.mapper.EntityMapper;
 import cz.scarecrows.eventmanager.mapper.ResponseMapper;
@@ -81,4 +83,9 @@ public class TeamEventController {
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping(ID)
+    public ResponseEntity<TeamEventDto> updateEvent(@PathVariable final Long id, @RequestBody final TeamEventUpdateRequest teamEventUpdateRequest) {
+        final TeamEventDto teamEventDto = entityMapper.toDto(teamEventService.updateTeamEvent(id, teamEventUpdateRequest));
+        return ResponseEntity.ok(teamEventDto);
+    }
 }
