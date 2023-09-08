@@ -19,9 +19,4 @@ public class EventRegistrationResult {
     private EventRegistrationDto eventRegistration;
 
     private EventRegistrationStatus eventRegistrationStatus;
-
-    public boolean isSuccess() {
-        return EventRegistrationStatus.CREATED.equals(eventRegistrationStatus);
-    }
-
 }
