@@ -105,4 +105,13 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
 
         return eventRegistrationMapper.toEventRegistrationDto(registrationRepository.save(patchedRegistration));
     }
+
+    public void deleteRegistration(final Long registrationId) {
+        registrationRepository.findById(registrationId).ifPresent(eventRegistration -> {
+            log.debug("Found event registration between event {} and member {}", eventRegistration.getTeamEventId(),
+                    eventRegistration.getTeamMemberId());
+            registrationRepository.delete(eventRegistration);
+            log.info("Deleted event registration {}", registrationId);
+        });
+    }
 }
