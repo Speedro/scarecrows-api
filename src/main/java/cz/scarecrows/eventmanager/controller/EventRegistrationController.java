@@ -18,7 +18,6 @@ import cz.scarecrows.eventmanager.data.EventRegistrationResult;
 import cz.scarecrows.eventmanager.data.RegistrationStatus;
 import cz.scarecrows.eventmanager.data.request.EventRegistrationRequest;
 import cz.scarecrows.eventmanager.data.request.RegistrationPatchRequest;
-import cz.scarecrows.eventmanager.data.response.TeamEventDetailResponseDto;
 import cz.scarecrows.eventmanager.service.EventRegistrationService;
 import cz.scarecrows.eventmanager.validation.impl.EventRegistrationValidator;
 import lombok.RequiredArgsConstructor;

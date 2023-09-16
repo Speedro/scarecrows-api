@@ -46,4 +46,7 @@ public class TeamEvent {
 
     @Column(name = "registrations_locked")
     private Boolean registrationsLocked;
+
+    @Column(name = "season")
+    private String season;
 }

@@ -5,13 +5,22 @@ import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.validation.annotation.Validated;
+
 import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
 import cz.scarecrows.eventmanager.data.request.TeamEventUpdateRequest;
 import cz.scarecrows.eventmanager.model.TeamEvent;
 
+@Validated
 public interface TeamEventService {
 
-    List<TeamEvent> getTeamEvents();
+    /**
+     * Returns a list of events.
+     * @param season optional season filter. Events starting in given year are returned if present,
+     * all events are returned if this filter is omitted.
+     * @return a list of events found
+     */
+    List<TeamEvent> getTeamEvents(String season);
 
     Optional<TeamEvent> getEventById(@NotNull Long id);
 
