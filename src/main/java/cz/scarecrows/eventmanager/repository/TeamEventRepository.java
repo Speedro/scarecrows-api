@@ -1,5 +1,6 @@
 package cz.scarecrows.eventmanager.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -19,7 +20,7 @@ public interface TeamEventRepository extends JpaRepository<TeamEvent, Long> {
     List<TeamEvent> findAllByRegistrationsLocked(Boolean locked);
 
     @NotNull
-    @Query("select * from sc_team_event te where te.start_date_time between ? and ?")
-    List<TeamEvent> findBySeason(@NotNull Integer seasonStartDate, @NotNull Integer seasonEndDate);
+    @Query("select te from TeamEvent te where te.startDateTime between :seasonStartDate and :seasonEndDate")
+    List<TeamEvent> findBySeason(@NotNull LocalDateTime seasonStartDate, @NotNull LocalDateTime seasonEndDate);
 
 }

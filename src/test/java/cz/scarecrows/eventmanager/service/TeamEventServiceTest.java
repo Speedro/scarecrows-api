@@ -19,7 +19,7 @@ import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
 import cz.scarecrows.eventmanager.model.TeamEvent;
 
 /**
- * TeamEventServiceTest
+ * Test suite for {@link TeamEventServiceTest}
  *
  * @author <a href="mailto:the.swdev@gmail.com">Petr Kadlec</a>
  */
@@ -67,5 +67,10 @@ public class TeamEventServiceTest extends AbstractIntegrationTest {
         Assertions.assertEquals(eventTitle, teamEvent.getTitle());
         Assertions.assertEquals(place, teamEvent.getPlace());
         Assertions.assertEquals(opponent, teamEvent.getOpponent());
+    }
+
+    @Test
+    public void testGetEventsInASeason() {
+        // TODO
     }
 }
