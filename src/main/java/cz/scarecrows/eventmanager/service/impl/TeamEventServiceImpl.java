@@ -1,5 +1,7 @@
 package cz.scarecrows.eventmanager.service.impl;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -47,7 +49,7 @@ public class TeamEventServiceImpl implements TeamEventService {
     public List<TeamEvent> getTeamEvents(final String season) {
         if (StringUtils.hasText(season)) {
             final int seasonStart = Integer.parseInt(season);
-            return teamEventRepository.findBySeason(seasonStart, seasonStart + 1)
+            return teamEventRepository.findBySeason(LocalDateTime.of(seasonStart, 9, 1, 0, 0), LocalDateTime.of(seasonStart + 1, 8, 31, 0, 0))
                     .stream()
                     .filter(teamEvent -> TeamEventSeasonUtils.eventSeasonFilter(teamEvent, seasonStart))
                     .collect(Collectors.toList());

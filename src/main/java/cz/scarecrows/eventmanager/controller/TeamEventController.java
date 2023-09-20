@@ -50,17 +50,17 @@ public class TeamEventController {
 
     /**
      * API endpoint to serve HTTP GET requests to given path
-     * @param season a comma delimited string to filter events by year e.g. 2023,2024
+     * @param season season filter - only events of given season are returned. (the year represents the year when the season started)
      * @return an instance of {@link ResponseEntity} with the list of events found.
      */
     @GetMapping
-    public ResponseEntity<List<TeamEventDto>> getEvents(@RequestParam final String season) {
+    public ResponseEntity<List<TeamEventDto>> getEvents(@RequestParam(required = false) final String season) {
         final List<TeamEventDto> teamEvents = teamEventService.getTeamEvents(season)
                 .stream()
                 .map(entityMapper::toDto)
                 .sorted(Comparator.comparing(TeamEventDto::getStartDateTime))
                 .collect(Collectors.toList());
-        log.info("Obtained {} team events.", teamEvents.size());
+        log.debug("Obtained {} team events.", teamEvents.size());
         return ResponseEntity.ok(teamEvents);
     }
 
