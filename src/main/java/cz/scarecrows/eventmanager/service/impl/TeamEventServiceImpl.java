@@ -1,12 +1,10 @@
 package cz.scarecrows.eventmanager.service.impl;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -17,7 +15,6 @@ import org.springframework.util.StringUtils;
 import cz.scarecrows.eventmanager.data.EventType;
 import cz.scarecrows.eventmanager.data.request.EventRegistrationRequest;
 import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
-import cz.scarecrows.eventmanager.data.request.TeamEventUpdateRequest;
 import cz.scarecrows.eventmanager.exception.EntityNotFoundException;
 import cz.scarecrows.eventmanager.mapper.EntityMapper;
 import cz.scarecrows.eventmanager.model.TeamEvent;
@@ -28,7 +25,6 @@ import cz.scarecrows.eventmanager.resolver.TimeResolverFactory;
 import cz.scarecrows.eventmanager.service.EventRegistrationService;
 import cz.scarecrows.eventmanager.resolver.EventTimeResolver;
 import cz.scarecrows.eventmanager.service.TeamEventService;
-import cz.scarecrows.eventmanager.util.TeamEventSeasonUtils;
 import cz.scarecrows.eventmanager.validation.ITeamEventValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,10 +45,7 @@ public class TeamEventServiceImpl implements TeamEventService {
     public List<TeamEvent> getTeamEvents(final String season) {
         if (StringUtils.hasText(season)) {
             final int seasonStart = Integer.parseInt(season);
-            return teamEventRepository.findBySeason(LocalDateTime.of(seasonStart, 9, 1, 0, 0), LocalDateTime.of(seasonStart + 1, 8, 31, 0, 0))
-                    .stream()
-                    .filter(teamEvent -> TeamEventSeasonUtils.eventSeasonFilter(teamEvent, seasonStart))
-                    .collect(Collectors.toList());
+            return teamEventRepository.findBySeason(LocalDateTime.of(seasonStart, 9, 1, 0, 0), LocalDateTime.of(seasonStart + 1, 8, 31, 0, 0));
         }
         return teamEventRepository.findAll();
     }
@@ -112,18 +105,29 @@ public class TeamEventServiceImpl implements TeamEventService {
     }
 
     @Override
-    public TeamEvent updateTeamEvent(final Long eventId, final TeamEventUpdateRequest request) {
-        final Optional<TeamEvent> teamEvent = teamEventRepository.findById(eventId);
-        if (teamEvent.isPresent()) {
-            final TeamEvent event = teamEvent.get();
-            event.setDescription(request.getDescription());
-            event.setEventType(request.getTitle());
-            event.setOpponent(request.getOpponent());
-            event.setPlace(request.getPlace());
+    public TeamEvent updateTeamEvent(final Long eventId, final TeamEventRequest request) {
+        final Optional<TeamEvent> teamEventOpt = teamEventRepository.findById(eventId);
+        if (teamEventOpt.isPresent()) {
+            final TeamEvent teamEvent = teamEventOpt.get();
 
-            teamEventRepository.save(event);
+            if (!request.getStartDateTime().isEqual(teamEvent.getStartDateTime())) {
+                final EventTimeResolver eventTimeResolver = TimeResolverFactory.getResolver(EventType.valueOf(request.getEventType()));
+                final LocalDateTime eventEnd = eventTimeResolver.resolveEventEnd(request);
+                final LocalDateTime registrationStart = eventTimeResolver.resolveRegistrationStart(request);
+                final LocalDateTime registrationEnd = eventTimeResolver.resolveRegistrationEnd(request);
+                teamEvent.setStartDateTime(request.getStartDateTime());
+                teamEvent.setRegistrationStart(registrationStart);
+                teamEvent.setEndDateTime(eventEnd);
+                teamEvent.setRegistrationEnd(registrationEnd);
+            }
+            teamEvent.setEventType(request.getEventType());
+            teamEvent.setDescription(request.getDescription());
+            teamEvent.setTitle(request.getTitle());
+            teamEvent.setPlace(request.getPlace());
 
-            return event;
+            teamEventRepository.save(teamEvent);
+
+            return teamEvent;
         }
 
         throw new EntityNotFoundException("Team event not found with given id.", "TeamEvent");

@@ -3,20 +3,23 @@
  */
 package cz.scarecrows.eventmanager.service;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 import java.time.LocalDateTime;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import cz.scarecrows.eventmanager.AbstractIntegrationTest;
 import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
 import cz.scarecrows.eventmanager.model.TeamEvent;
+import cz.scarecrows.eventmanager.repository.TeamEventRepository;
 
 /**
  * Test suite for {@link TeamEventServiceTest}
@@ -27,6 +30,8 @@ public class TeamEventServiceTest extends AbstractIntegrationTest {
 
     @Autowired
     public TeamEventService tested;
+    @MockBean
+    public TeamEventRepository teamEventRepository;
 
     @Test
     @DisplayName("Test creation of an event")
@@ -71,6 +76,19 @@ public class TeamEventServiceTest extends AbstractIntegrationTest {
 
     @Test
     public void testGetEventsInASeason() {
-        // TODO
+
+        when(teamEventRepository.findBySeason(any(), any())).thenReturn(mockListOfEvents());
+
+        final List<TeamEvent> events = tested.getTeamEvents("2023");
+
+        Assertions.assertEquals(2, events.size());
+    }
+
+    private List<TeamEvent> mockListOfEvents() {
+        final TeamEvent teamEvent = new TeamEvent();
+        teamEvent.setStartDateTime(LocalDateTime.of(2023 + 1, 8, 31, 0, 0));
+        final TeamEvent teamEvent1 = new TeamEvent();
+        teamEvent1.setStartDateTime(LocalDateTime.of(2023, 9, 1, 0, 0));
+        return List.of(teamEvent, teamEvent1);
     }
 }

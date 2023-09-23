@@ -6,9 +6,12 @@ import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.validation.annotation.Validated;
+
 import cz.scarecrows.eventmanager.data.EventType;
 import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
 
+@Validated
 public interface EventTimeResolver {
 
     /**
@@ -16,7 +19,7 @@ public interface EventTimeResolver {
      * @param request original time event creation request
      * @return date and time of when the registration starts.
      */
-    default LocalDateTime resolveRegistrationStart(@NotNull final TeamEventRequest request) {
+    default LocalDateTime resolveRegistrationStart(@NotNull TeamEventRequest request) {
         return Objects.requireNonNullElse(request.getRegistrationStart(), LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES))
                         .truncatedTo(ChronoUnit.MINUTES);
     }
@@ -27,7 +30,7 @@ public interface EventTimeResolver {
      * @param request original time event creation request
      * @return date and time of when the registration ends
      */
-    default LocalDateTime resolveRegistrationEnd(@NotNull final TeamEventRequest request) {
+    default LocalDateTime resolveRegistrationEnd(@NotNull TeamEventRequest request) {
         return Objects.requireNonNullElseGet(request.getRegistrationEnd(), () -> request.getRegistrationStart().minusDays(1))
                 .truncatedTo(ChronoUnit.MINUTES);
     }
@@ -38,8 +41,7 @@ public interface EventTimeResolver {
      * @param request original time event creation request
      * @return date and time of when the registration ends
      */
-    default LocalDateTime resolveEventEnd(@NotNull final TeamEventRequest request) {
+    default LocalDateTime resolveEventEnd(@NotNull TeamEventRequest request) {
         return Objects.requireNonNullElse(request.getEndDateTime(), request.getStartDateTime().plusDays(1)).truncatedTo(ChronoUnit.MINUTES);
     }
-
 }
