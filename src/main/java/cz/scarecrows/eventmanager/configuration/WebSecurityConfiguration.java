@@ -21,12 +21,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.cors().disable().csrf().disable().authorizeHttpRequests()
-                .anyRequest().permitAll();
-    }
-
-    @Override
-    public void configure(final AuthenticationManagerBuilder auth) {
+        http.cors().and().csrf().and().authorizeHttpRequests()
+                .anyRequest()
+                .permitAll();
     }
 
     @Bean

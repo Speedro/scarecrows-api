@@ -32,7 +32,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping(REGISTRATIONS)
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 public class EventRegistrationController {
 
     private final EventRegistrationService eventRegistrationService;
