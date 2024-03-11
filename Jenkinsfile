@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Hello') {
             steps {
-                echo 'Hello World'
+               dockerComposeBuilder(true, 'docker-compose.yml')
             }
         }
     }

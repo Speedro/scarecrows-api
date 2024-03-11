@@ -19,13 +19,13 @@ public class TrainingTimeResolver implements EventTimeResolver {
     @Override
     public LocalDateTime resolveRegistrationEnd(final TeamEventRequest teamEventRequest) {
         final LocalDateTime eventStart = teamEventRequest.getStartDateTime();
-        if (matchStartInLessThenThreeDays(eventStart)) {
+        if (eventStartsInLessThenThreeDays(eventStart)) {
             return eventStart.minusHours(2);
         }
         return eventStart.minusDays(1);
     }
 
-    private boolean matchStartInLessThenThreeDays(final LocalDateTime matchStart) {
+    private boolean eventStartsInLessThenThreeDays(final LocalDateTime matchStart) {
         return LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES).plusDays(3).isAfter(matchStart.truncatedTo(ChronoUnit.MINUTES));
     }
 

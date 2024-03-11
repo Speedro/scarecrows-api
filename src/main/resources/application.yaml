@@ -1,7 +1,9 @@
 app:
   server:
     port: ${PORT}
-
+auth:
+  jwt:
+    secret: ${JWT_SECRET}
 spring:
   datasource:
     url: jdbc:postgresql://ec2-44-194-4-127.compute-1.amazonaws.com:5432/df31bd0al0f1uh

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,14 +47,19 @@ public class TeamEventController {
     private final TeamEventService teamEventService;
     private final EventRegistrationService eventRegistrationService;
 
+    /**
+     * API endpoint to serve HTTP GET requests to given path
+     * @param season season filter - only events of given season are returned. (the year represents the year when the season started)
+     * @return an instance of {@link ResponseEntity} with the list of events found.
+     */
     @GetMapping
-    public ResponseEntity<List<TeamEventDto>> getEvents() {
-        final List<TeamEventDto> teamEvents = teamEventService.getTeamEvents()
+    public ResponseEntity<List<TeamEventDto>> getEvents(@RequestParam(required = false) final String season) {
+        final List<TeamEventDto> teamEvents = teamEventService.getTeamEvents(season)
                 .stream()
                 .map(entityMapper::toDto)
                 .sorted(Comparator.comparing(TeamEventDto::getStartDateTime))
                 .collect(Collectors.toList());
-        log.info("Obtained {} team events.", teamEvents.size());
+        log.debug("Obtained {} team events.", teamEvents.size());
         return ResponseEntity.ok(teamEvents);
     }
 
@@ -77,8 +83,14 @@ public class TeamEventController {
 
     @DeleteMapping(ID)
     public ResponseEntity<Void> deleteEvent(@PathVariable final Long id) {
+        log.debug("Serving a request to delete team event with id {}", id);
         teamEventService.deleteEvent(id);
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping(ID)
+    public ResponseEntity<TeamEventDto> updateEvent(@PathVariable final Long id, @RequestBody final TeamEventRequest teamEventRequest) {
+        final TeamEventDto teamEventDto = entityMapper.toDto(teamEventService.updateTeamEvent(id, teamEventRequest));
+        return ResponseEntity.ok(teamEventDto);
+    }
 }

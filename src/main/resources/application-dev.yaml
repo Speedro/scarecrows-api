@@ -1,6 +1,8 @@
 server:
   port: 9001
-
+auth:
+  jwt:
+    secret: "4=a^sjzA/-n49m^ZP(@ad>H"
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
