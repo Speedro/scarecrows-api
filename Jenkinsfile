@@ -3,9 +3,7 @@ pipeline {
     stages {
         stage('Build image and deploy to dockerhub') {
             steps {
-                step {
-                    echo 'Checking docker version'
-                }
+                echo 'Checking docker version'
             }
         }
     }
