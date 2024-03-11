@@ -1,10 +1,9 @@
 pipeline {
     agent any
     stages {
-        stage('docker-compose') {
+        stage('Build image and deploy to dockerhub') {
             steps {
-               sh "docker-compose build"
-               echo "OK"
+                sh 'docker compose version'
             }
         }
     }
