@@ -1,9 +1,10 @@
 pipeline {
     agent any
     stages {
-        stage('Hello') {
+        stage('docker-compose') {
             steps {
-               dockerComposeBuilder(true, 'docker-compose.yml')
+               sh "docker-compose build"
+               echo "OK"
             }
         }
     }
