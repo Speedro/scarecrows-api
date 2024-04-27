@@ -13,7 +13,7 @@ import lombok.Data;
 /**
  * TeamEventDetailResponseDto
  *
- * @author <a href="mailto:petr.kadlec@finshape.com">Petr Kadlec</a>
+ * @author <a href="mailto:petr.kadlec@devspot.cz">Petr Kadlec</a>
  */
 @Data
 @Builder

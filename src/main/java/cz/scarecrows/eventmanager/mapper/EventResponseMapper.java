@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * EventResponseConverter
  *
- * @author <a href="mailto:petr.kadlec@finshape.com">Petr Kadlec</a>
+ * @author <a href="mailto:petr.kadlec@devspot.cz">Petr Kadlec</a>
  */
 @Slf4j
 @Component
