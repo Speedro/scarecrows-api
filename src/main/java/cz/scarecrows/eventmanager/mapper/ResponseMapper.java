@@ -14,7 +14,7 @@ import cz.scarecrows.eventmanager.model.TeamEvent;
 /**
  * IResponesMapper
  *
- * @author <a href="mailto:petr.kadlec@openwise.cz">Petr Kadlec</a>
+ * @author <a href="mailto:petr.kadlec@devspot.cz">Petr Kadlec</a>
  * @since 2.0.0
  */
 public interface ResponseMapper {
