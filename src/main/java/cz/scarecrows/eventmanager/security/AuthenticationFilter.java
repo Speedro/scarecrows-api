@@ -23,6 +23,7 @@ import cz.scarecrows.eventmanager.exception.UnauthorizedExcpetion;
 @Component
 public class AuthenticationFilter extends OncePerRequestFilter {
 
+
     private static final Set<String> SWAGGER_RELATED_ALLOWED_PATHS = Set.of(
             "/swagger-ui/index.html",
             "/swagger-ui/springfox.css",
@@ -36,7 +37,6 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             "/v2/api-docs"
     );
 
-
     @Value("${auth.jwt.secret}")
     private String secret;
 
@@ -45,6 +45,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             final HttpServletRequest request,
             final HttpServletResponse response,
             final FilterChain chain) throws IOException, ServletException {
+
 
         if (SWAGGER_RELATED_ALLOWED_PATHS.contains(request.getRequestURI()) || request.getRequestURI().contains("swagger")) {
             chain.doFilter(request, response);
