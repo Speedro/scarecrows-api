@@ -8,7 +8,7 @@ import lombok.Value;
 /**
  * TeamMemberDto
  *
- * @author <a href="mailto:petr.kadlec@finshape.com">Petr Kadlec</a>
+ * @author <a href="mailto:petr.kadlec@devspot.cz">Petr Kadlec</a>
  */
 @Value
 public class TeamMemberDto {

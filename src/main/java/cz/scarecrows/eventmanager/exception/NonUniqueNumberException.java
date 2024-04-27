@@ -6,7 +6,7 @@ package cz.scarecrows.eventmanager.exception;
 /**
  * NonUniqueNumberException
  *
- * @author <a href="mailto:petr.kadlec@finshape.com">Petr Kadlec</a>
+ * @author <a href="mailto:petr.kadlec@devspot.cz">Petr Kadlec</a>
  */
 public class NonUniqueNumberException extends IllegalStateException {
 
