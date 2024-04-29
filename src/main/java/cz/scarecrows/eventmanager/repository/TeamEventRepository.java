@@ -17,6 +17,7 @@ import cz.scarecrows.eventmanager.model.TeamEvent;
 public interface TeamEventRepository extends JpaRepository<TeamEvent, Long> {
 
     @NotNull
+    @Query("select te from TeamEvent te where te.registrationsLocked = :locked or te.registrationsLocked is null")
     List<TeamEvent> findAllByRegistrationsLocked(Boolean locked);
 
     @NotNull
