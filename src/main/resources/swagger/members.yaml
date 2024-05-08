@@ -1,0 +1,223 @@
+openapi: 3.0.0
+info:
+  title: SCARECROWS API - Team members
+  description: API for team members
+  version: 1.0.0
+servers:
+  - url: https://aqueous-tundra-40837.herokuapp.com
+  - url: localhost:9001
+paths:
+  /api/v1/members:
+    get:
+      operationId: Get list of team members
+      description: Get the list of all team members
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+            description: JWT token
+      responses:
+        200:
+          description: The request was successfully served and a list of players is returned.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeamMember'
+        401:
+          description: Error status when user not authenticated
+        403:
+          description: Error status when user not authorized to access the endpoint
+        500:
+          description: The request was not served as there was an error on the server.
+    post:
+      operationId: Create a team member
+      description: Create a new team member
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+            description: JWT token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamMemberRequest'
+      responses:
+        201:
+          description: The request has been successfully served and the player has been created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamMember'
+        401:
+          description: Error status when user not authenticated
+        403:
+          description: Error status when user not authorized to access the endpoint
+        409:
+          description: Some validation might fail during new player creation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationErrorResponse'
+        500:
+          description: The request was not served as there was an error on the server.
+
+  /api/v1/members/{memberId}:
+    get:
+      operationId: Get team member detail
+      description: Get the detail of a team member.
+      parameters:
+        - name: memberId
+          schema:
+            type: integer
+            example: 1
+          in: path
+          required: true
+          description: Id of the player to return
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+            description: JWT token
+      responses:
+        200:
+          description: The request has been successfully served and the player's detail has been returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamMember'
+        400:
+          description: The request could not be served as it was invalid.
+        401:
+          description: Error status when user not authenticated
+        403:
+          description: Error status when user not authorized to access the endpoint
+        404:
+          description: The request has successfully been served but no player was found by given parameters.
+        500:
+          description: The request was not served as there was an error on the server
+    delete:
+      operationId: Delete a team member
+      description: Delete a team member
+      parameters:
+        - name: memberId
+          schema:
+            type: integer
+            example: 1
+          in: path
+          required: true
+          description: Id of the player to return
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+            description: JWT token
+      responses:
+        204:
+          description: The request has been successfully served and the player has been deleted.
+        401:
+          description: Error status when user not authenticated
+        403:
+          description: Error status when user not authorized to access the endpoint
+        404:
+          description: The request has successfully been served but no player was found by given parameters.
+        500:
+          description: The request was not served as there was an error on the server.
+components:
+  schemas:
+    ValidationErrorResponse:
+      type: object
+      required:
+        - status
+        - title
+        - reason
+      properties:
+        status:
+          type: integer
+          description: Response status
+          example: 409
+        title:
+          type: string
+          description: Validation error code
+          example: VAL_ERR_03
+        reason:
+          type: string
+          description: The description of the error
+          example: Given number of the player is not unique
+
+    TeamMemberRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - position
+        - amateur
+        - number
+        - admin
+      properties:
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        position:
+          type: string
+          enum:
+            - GOALTENDER
+            - DEFENCE
+            - FORWARD
+        amateur:
+          description: flag that determines if the player's level of experience for PHM league is AMATEUR
+          type: boolean
+          example: true
+        number:
+          description: Player's number
+          type: integer
+          example: 12
+        admin:
+          description: Flag to determine if the new member should have admin rights
+          type: boolean
+
+    TeamMember:
+      type: object
+      required:
+        - id
+        - firstName
+        - lastName
+        - position
+        - amateur
+        - number
+      properties:
+        id:
+          type: integer
+          example: 1
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        position:
+          type: string
+          enum:
+            - GOALTENDER
+            - DEFENCE
+            - FORWARD
+        amateur:
+          description: flag that determines if the player's level of experience for PHM league is AMATEUR
+          type: boolean
+          example: true
+        number:
+          description: Player's number
+          type: integer
+          example: 12

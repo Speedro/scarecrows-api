@@ -1,0 +1,103 @@
+openapi: 3.0.0
+info:
+  title: SCARECROWS API - Team members
+  description: API for team members
+  version: 1.0.0
+servers:
+  - url: https://aqueous-tundra-40837.herokuapp.com
+  - url: localhost:9001
+paths:
+  /api/v1/events:
+    get:
+      operationId: Get list of team members
+      description: Get the list of all team members
+      parameters:
+        - in: path
+          required: false
+          name: season
+          description: The season filter. If applied only events of given season are returned. (year means when the season started)
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+            description: JWT token
+      responses:
+        200:
+          description: The request was successfully served and a list of events is returned.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeamEvent'
+        401:
+          description: Error status when user not authenticated.
+        403:
+          description: Error status when user not authorized to access the endpoint.
+        500:
+          description: The request was not served as there was an error on the server.
+components:
+  schemas:
+    TeamEvent:
+      type: object
+      required:
+        - eventId
+        - title
+        - startDateTime
+        - endDateTime
+        - registrationStart
+        - registrationEnd
+        - eventType
+      properties:
+        eventId:
+          type: integer
+          description: Event's unique id.
+          example: 1
+        title:
+          type: string
+          description: Event's title.
+          example: 'PHM Match'
+        startDateTime:
+          type: string
+          format: 'yyyy-MM-dd HH:mm'
+          description: The date and time of the event's start.
+          example: '2024-02-11 18:30'
+        endDateTime:
+          type: string
+          format: 'yyyy-MM-dd HH:mm'
+          description: The date and time of the event's end.
+          example: '2024-02-11 18:30'
+        registrationStart:
+          type: string
+          format: 'yyyy-MM-dd HH:mm'
+          description: The date and time of when the registrations for the event are started.
+          example: '2024-02-11 18:30'
+        registrationEnd:
+          type: string
+          format: 'yyyy-MM-dd HH:mm'
+          description: The date and time of when the registrations for the event are ended.
+          example: '2024-02-11 18:30'
+        eventType:
+          enum:
+            - MATCH
+            - FRIENDLY_MATCH
+            - TRAINING
+            - PUB
+            - OTHER
+        description:
+          type: string
+          maxLength: 255
+          description: Event's description.
+        place:
+          type: string
+          maxLength: 255
+          description: Place of event's occurrence.
+        opponent:
+          type: string
+          maxLength: 255
+          description: Opponent's name when the event's type is MATCH or FRIENDLY_MATCH
+        registrationsLocked:
+          type: boolean
+          description: A flag to determine if the registration for given event are locked.
+          example: true
