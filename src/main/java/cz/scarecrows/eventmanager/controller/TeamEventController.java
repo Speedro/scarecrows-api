@@ -64,7 +64,7 @@ public class TeamEventController {
     }
 
     @GetMapping(ID)
-    public ResponseEntity<TeamEventDetailResponseDto> getEventById(@PathVariable final Long id, @RequestParam final Long memberId) {
+    public ResponseEntity<TeamEventDetailResponseDto> getEventDetail(@PathVariable final Long id, @RequestParam final Long memberId) {
         final Optional<TeamEvent> teamEvent = teamEventService.getEventById(id);
         eventRegistrationService.updateEventRegistrationStatus(id, memberId, DISPLAYED);
 
