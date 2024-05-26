@@ -5,6 +5,7 @@ public enum ValidationErrorCode {
     VAL_ERR_01,
     VAL_ERR_02,
     VAL_ERR_03,
-    VAL_ERR_04
+    VAL_ERR_04,
+    VAL_ERR_05
 
 }

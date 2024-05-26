@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import cz.scarecrows.eventmanager.data.TeamMemberStatus;
 import cz.scarecrows.eventmanager.data.request.TeamMemberRequest;
 import cz.scarecrows.eventmanager.exception.NonUniqueNumberException;
+import cz.scarecrows.eventmanager.exception.PendingRegistrationRequestExists;
 import cz.scarecrows.eventmanager.repository.TeamMemberRepository;
 import cz.scarecrows.eventmanager.validation.ITeamMemberValidator;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,17 @@ import lombok.extern.slf4j.Slf4j;
 public class TeamMemberValidator implements ITeamMemberValidator {
 
     private final TeamMemberRepository teamMemberRepository;
+
+    @Override
+    public ITeamMemberValidator validateExistingRegistration(final TeamMemberRequest request) {
+
+        teamMemberRepository.findByNumberAndStatus(request.getNumber(), TeamMemberStatus.PENDING).ifPresent(it -> {
+            log.error("A registration request for this member already exists");
+            throw new PendingRegistrationRequestExists("Pending registration request already exists");
+        });
+
+        return this;
+    }
 
     @Override
     public ITeamMemberValidator validateUniqueNumberAmongActivePlayers(final TeamMemberRequest request) {

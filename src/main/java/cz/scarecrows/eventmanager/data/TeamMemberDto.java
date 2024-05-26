@@ -19,4 +19,5 @@ public class TeamMemberDto {
     PlayerPosition position;
     boolean amateur;
     short number;
+    String registrationId;
 }

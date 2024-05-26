@@ -3,6 +3,7 @@
  */
 package cz.scarecrows.eventmanager.exception;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import cz.scarecrows.eventmanager.validation.data.ValidationError;
 import cz.scarecrows.eventmanager.validation.data.ValidationErrorCode;
 import lombok.extern.slf4j.Slf4j;
@@ -94,7 +95,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = { UnknownRegistrationStatusException.class })
     protected ResponseEntity<ValidationError> handleUnknownRegistrationStatusException(final UnknownRegistrationStatusException exception) {
-        log.error("Validation failed {}", exception.getMessage());
+        log.error("Validation failed: {}", exception.getMessage());
         final ValidationError validationResult = ValidationError.builder()
                 .message(exception.getMessage())
                 .validationErrorCode(ValidationErrorCode.VAL_ERR_04)
@@ -104,11 +105,27 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = { TransitionNotAllowedException.class })
     protected ResponseEntity<ValidationError> handleTransitionNotAllowedException(final TransitionNotAllowedException exception) {
-        log.error("Validation failed {}", exception.getMessage());
+        log.error("Validation failed: {}", exception.getMessage());
         final ValidationError validationResult = ValidationError.builder()
                 .message(exception.getMessage())
                 .validationErrorCode(ValidationErrorCode.VAL_ERR_01)
                 .build();
         return new ResponseEntity<>(validationResult, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(value = { PendingRegistrationRequestExists.class })
+    protected ResponseEntity<ValidationError> handlePendingRegistrationRequestException(final PendingRegistrationRequestExists exception) {
+        log.error("Validation failed: {}", exception.getMessage());
+        final ValidationError validationResult = ValidationError.builder()
+                .message(exception.getMessage())
+                .validationErrorCode(ValidationErrorCode.VAL_ERR_05)
+                .build();
+        return new ResponseEntity<>(validationResult, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(value = { TokenExpiredException.class })
+    protected ResponseEntity<Void> handleTokenExpiredException(final TokenExpiredException exception) {
+        log.error("Validation failed: {}", exception.getMessage());
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 }

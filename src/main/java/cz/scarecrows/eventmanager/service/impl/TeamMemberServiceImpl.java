@@ -61,7 +61,10 @@ public class TeamMemberServiceImpl implements TeamMemberService {
     @Override
     public TeamMember createTeamMember(final TeamMemberRequest teamMemberRequest) {
 
-        teamMemberValidator.validateUniqueNumberAmongActivePlayers(teamMemberRequest).eval();
+        teamMemberValidator
+                .validateExistingRegistration(teamMemberRequest)
+                .validateUniqueNumberAmongActivePlayers(teamMemberRequest)
+                .eval();
 
         final String registrationId = UUID.randomUUID().toString();
         final TeamMember teamMember = entityMapper.toEntity(teamMemberRequest);
