@@ -18,7 +18,7 @@ public class TeamEventRegistrationLockingJob {
 
     private final TeamEventRepository teamEventRepository;
 
-    @Scheduled(cron = "0 * * * *") // run every hour
+    @Scheduled(cron = "0 0 * ? * *") // run every hour
     public void lockRegistrations() {
         final LocalDateTime now = LocalDateTime.now();
         log.debug("Launching 'TeamEventRegistrationLockingJob to check for team events after allowed registration time: {}", now);
