@@ -21,6 +21,7 @@ public final class AuthRequestFactory {
                 .password(createPassword(request))
                 .authorities(request.isAdmin() ? ADMIN_ROLE : USER_ROLE)
                 .registrationId(registrationId)
+                .email(request.getEmail())
                 .build();
     }
 
