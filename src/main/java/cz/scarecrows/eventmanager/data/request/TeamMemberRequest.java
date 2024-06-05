@@ -24,4 +24,5 @@ public class TeamMemberRequest {
     boolean amateur;
     short number;
     boolean admin;
+    String email;
 }
