@@ -17,9 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import cz.scarecrows.eventmanager.AbstractIntegrationTest;
-import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
-import cz.scarecrows.eventmanager.model.TeamEvent;
-import cz.scarecrows.eventmanager.repository.TeamEventRepository;
+import cz.scarecrows.eventmanager.events.data.TeamEventRequest;
+import cz.scarecrows.eventmanager.events.TeamEventService;
+import cz.scarecrows.eventmanager.events.model.TeamEvent;
+import cz.scarecrows.eventmanager.events.TeamEventRepository;
 
 /**
  * Test suite for {@link TeamEventServiceTest}

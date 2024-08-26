@@ -3,7 +3,7 @@ package cz.scarecrows.eventmanager.messaging;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
-import cz.scarecrows.eventmanager.data.request.MemberRegistrationRequest;
+import cz.scarecrows.eventmanager.players.controller.request.MemberRegistrationRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
