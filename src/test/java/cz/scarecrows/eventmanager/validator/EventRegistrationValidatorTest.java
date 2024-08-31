@@ -3,27 +3,22 @@
  */
 package cz.scarecrows.eventmanager.validator;
 
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
-
-import static cz.scarecrows.eventmanager.data.RegistrationStatus.GOING;
 
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import cz.scarecrows.eventmanager.AbstractIntegrationTest;
-import cz.scarecrows.eventmanager.data.request.EventRegistrationRequest;
-import cz.scarecrows.eventmanager.exception.UniqueRegistrationException;
-import cz.scarecrows.eventmanager.model.EventRegistration;
-import cz.scarecrows.eventmanager.repository.EventRegistrationRepository;
-import cz.scarecrows.eventmanager.validation.impl.EventRegistrationValidator;
+import cz.scarecrows.eventmanager.registrations.controller.EventRegistrationRequest;
+import cz.scarecrows.eventmanager.registrations.exception.UniqueRegistrationException;
+import cz.scarecrows.eventmanager.registrations.model.EventRegistration;
+import cz.scarecrows.eventmanager.registrations.repository.EventRegistrationRepository;
+import cz.scarecrows.eventmanager.registrations.validation.impl.EventRegistrationValidator;
 
 /**
  * EventRegistrationValidatorTest

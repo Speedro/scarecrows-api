@@ -6,15 +6,15 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.validation.annotation.Validated;
 
-import cz.scarecrows.eventmanager.data.EventRegistrationDto;
-import cz.scarecrows.eventmanager.data.TeamEventDto;
-import cz.scarecrows.eventmanager.data.TeamMemberDto;
-import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
-import cz.scarecrows.eventmanager.data.request.TeamMemberRequest;
-import cz.scarecrows.eventmanager.data.response.UserDetailDto;
-import cz.scarecrows.eventmanager.model.EventRegistration;
-import cz.scarecrows.eventmanager.model.TeamEvent;
-import cz.scarecrows.eventmanager.model.TeamMember;
+import cz.scarecrows.eventmanager.registrations.data.EventRegistrationDto;
+import cz.scarecrows.eventmanager.events.data.TeamEventDto;
+import cz.scarecrows.eventmanager.players.data.TeamMemberDto;
+import cz.scarecrows.eventmanager.events.data.TeamEventRequest;
+import cz.scarecrows.eventmanager.players.data.request.TeamMemberRequest;
+import cz.scarecrows.eventmanager.users.UserDetailDto;
+import cz.scarecrows.eventmanager.registrations.model.EventRegistration;
+import cz.scarecrows.eventmanager.events.model.TeamEvent;
+import cz.scarecrows.eventmanager.players.model.TeamMember;
 
 @Validated
 @Mapper(componentModel = "spring")

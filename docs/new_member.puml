@@ -24,7 +24,9 @@ activate SCARECROWS_API
         Admin <-- AUTH_SERVICE: Sends confirmation email
     deactivate AUTH_SERVICE
 deactivate SCARECROWS_API
-Admin -> AUTH_SERVICE: Clicks the confirmation link
+Admin -> FE: Clicks the confirmation link [GET] /registrations/{registrationId}
+activate FE
+    FE -> AUTH_SERVICE: [PUT] /registrations
 activate AUTH_SERVICE
     AUTH_SERVICE -> AUTH_DB: Updates registration
     activate AUTH_DB
@@ -38,5 +40,6 @@ activate SCARECROWS_API
     SCARECROWS_API -> SCARECROWS_DB: Updates team member status
 deactivate
 
-
+Admin -> FE: Logs in
+deactivate FE
 @enduml

@@ -1,7 +1,6 @@
 package cz.scarecrows.eventmanager.resolver;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 
 import org.junit.jupiter.api.Assertions;
@@ -9,8 +8,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
-import cz.scarecrows.eventmanager.resolver.impl.DefaultTimeResolver;
+import cz.scarecrows.eventmanager.events.data.TeamEventRequest;
+import cz.scarecrows.eventmanager.events.resolver.EventTimeResolver;
+import cz.scarecrows.eventmanager.events.resolver.impl.DefaultTimeResolver;
 
 public class DefaultTimeResolverTest {
 

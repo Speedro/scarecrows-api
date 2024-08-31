@@ -8,8 +8,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import cz.scarecrows.eventmanager.data.request.TeamEventRequest;
-import cz.scarecrows.eventmanager.resolver.impl.TrainingTimeResolver;
+import cz.scarecrows.eventmanager.events.data.TeamEventRequest;
+import cz.scarecrows.eventmanager.events.resolver.EventTimeResolver;
+import cz.scarecrows.eventmanager.events.resolver.impl.TrainingTimeResolver;
 
 public class TrainingTimeResolverTest {
 

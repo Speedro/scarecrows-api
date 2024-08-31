@@ -8,16 +8,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import cz.scarecrows.eventmanager.data.EventRegistrationDto;
-import cz.scarecrows.eventmanager.data.TeamEventDto;
-import cz.scarecrows.eventmanager.data.TeamMemberDto;
-import cz.scarecrows.eventmanager.data.response.TeamEventDetailResponseDto;
-import cz.scarecrows.eventmanager.exception.EntityNotFoundException;
-import cz.scarecrows.eventmanager.model.EventRegistration;
-import cz.scarecrows.eventmanager.model.TeamEvent;
-import cz.scarecrows.eventmanager.model.TeamMember;
-import cz.scarecrows.eventmanager.service.EventRegistrationService;
-import cz.scarecrows.eventmanager.service.TeamMemberService;
+import cz.scarecrows.eventmanager.registrations.data.EventRegistrationDto;
+import cz.scarecrows.eventmanager.events.data.TeamEventDto;
+import cz.scarecrows.eventmanager.events.TeamEventDetailResponseDto;
+import cz.scarecrows.eventmanager.events.model.TeamEvent;
+import cz.scarecrows.eventmanager.registrations.mapper.EventRegistrationMapper;
+import cz.scarecrows.eventmanager.registrations.service.EventRegistrationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

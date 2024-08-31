@@ -21,26 +21,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = { RegistrationClosedException.class })
-    public ResponseEntity<ValidationError> handleValidationException(final RegistrationClosedException exception) {
-        log.error("Validation failed {}", exception.getMessage());
-        final ValidationError validationResult = ValidationError.builder()
-                .message(exception.getMessage())
-                .validationErrorCode(ValidationErrorCode.VAL_ERR_01)
-                .build();
 
-        return new ResponseEntity<>(validationResult, HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(value = { UniqueRegistrationException.class })
-    protected ResponseEntity<ValidationError> handleUniqueRegistrationException(final UniqueRegistrationException exception) {
-        log.error("Validation failed {}", exception.getMessage());
-        final ValidationError validationResult = ValidationError.builder()
-                .message("Unique registration constraint violated")
-                .validationErrorCode(ValidationErrorCode.VAL_ERR_01)
-                .build();
-        return new ResponseEntity<>(validationResult, HttpStatus.CONFLICT);
-    }
 
     @ExceptionHandler(value = { NonUniqueNumberException.class })
     protected ResponseEntity<ValidationError> handleNonUniqueNumberException(final NonUniqueNumberException exception) {
@@ -72,42 +53,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(validationResult, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(value = { UnsupportedEventTypeException.class })
-    protected ResponseEntity<ValidationError> handleUnsupportedEventTypeException(final UnsupportedEventTypeException exception) {
-        log.error("Validation failed {}", exception.getMessage());
-        final ValidationError validationResult = ValidationError.builder()
-                .message(exception.getMessage())
-                .validationErrorCode(ValidationErrorCode.VAL_ERR_02)
-                .build();
-        return new ResponseEntity<>(validationResult, HttpStatus.CONFLICT);
-    }
-
     @ExceptionHandler(value = { MatchStartInLessThenTwoHoursException.class })
     protected ResponseEntity<ValidationError> handleMatchStartInLessThenTwoHoursException(final MatchStartInLessThenTwoHoursException exception) {
         log.error("Validation failed {}", exception.getMessage());
         final ValidationError validationResult = ValidationError.builder()
                 .message(exception.getMessage())
                 .validationErrorCode(ValidationErrorCode.VAL_ERR_03)
-                .build();
-        return new ResponseEntity<>(validationResult, HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(value = { UnknownRegistrationStatusException.class })
-    protected ResponseEntity<ValidationError> handleUnknownRegistrationStatusException(final UnknownRegistrationStatusException exception) {
-        log.error("Validation failed {}", exception.getMessage());
-        final ValidationError validationResult = ValidationError.builder()
-                .message(exception.getMessage())
-                .validationErrorCode(ValidationErrorCode.VAL_ERR_04)
-                .build();
-        return new ResponseEntity<>(validationResult, HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(value = { TransitionNotAllowedException.class })
-    protected ResponseEntity<ValidationError> handleTransitionNotAllowedException(final TransitionNotAllowedException exception) {
-        log.error("Validation failed {}", exception.getMessage());
-        final ValidationError validationResult = ValidationError.builder()
-                .message(exception.getMessage())
-                .validationErrorCode(ValidationErrorCode.VAL_ERR_01)
                 .build();
         return new ResponseEntity<>(validationResult, HttpStatus.CONFLICT);
     }
