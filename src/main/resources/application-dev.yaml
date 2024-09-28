@@ -12,5 +12,8 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.xml
   rabbitmq:
     uri: "amqp://admin:admin@localhost:5672"
+series:
+  end: "2024-12-31:23:59"
+
 
 

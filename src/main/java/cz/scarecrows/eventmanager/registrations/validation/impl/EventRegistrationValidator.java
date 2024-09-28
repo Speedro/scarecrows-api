@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Component;
 
 import cz.scarecrows.eventmanager.registrations.RegistrationStatus;
@@ -32,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 @AllArgsConstructor
+@Transactional
 public class EventRegistrationValidator implements IEventRegistrationValidator {
 
     private final EventRegistrationRepository registrationRepository;

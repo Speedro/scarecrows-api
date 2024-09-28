@@ -53,6 +53,8 @@ public class TeamEventRequest {
 
     Set<Long> memberIds;
 
+    Boolean repeat;
+
     public static TeamEventRequest.TeamEventRequestBuilder toBuilder(final TeamEventRequest original) {
         return TeamEventRequest.builder()
                 .title(original.title)
@@ -64,6 +66,7 @@ public class TeamEventRequest {
                 .endDateTime(original.endDateTime)
                 .registrationStart(original.registrationStart)
                 .registrationEnd(original.registrationEnd)
+                .repeat(original.repeat)
                 .opponent(original.opponent);
     }
 }
