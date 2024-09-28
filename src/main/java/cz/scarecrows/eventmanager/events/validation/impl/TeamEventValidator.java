@@ -3,6 +3,8 @@
  */
 package cz.scarecrows.eventmanager.events.validation.impl;
 
+import static cz.scarecrows.eventmanager.events.EventType.MATCH;
+
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +43,9 @@ public class TeamEventValidator implements ITeamEventValidator {
         final LocalDateTime eventEnd = teamEventRequest.getEndDateTime();
 
         // match can't created for eventStart < now.plusHours(2)
-        validateMatchStartsInMoreThanTwoHours(now, teamEventRequest);
+        if (MATCH.name().equals(teamEventRequest.getEventType())) {
+            validateMatchStartsInMoreThanTwoHours(now, teamEventRequest);
+        }
 
         // event start and event end must be in future
         Stream.of(eventStart, eventEnd).forEach(it -> dateInFuture(now, it));
@@ -86,7 +90,7 @@ public class TeamEventValidator implements ITeamEventValidator {
 
     @Override
     public ITeamEventValidator validateMatchStartsInMoreThanTwoHours(final LocalDateTime now, final TeamEventRequest teamEventRequest) {
-        if (List.of(EventType.MATCH.name(), EventType.TRAINING.name()).contains(teamEventRequest.getEventType())) {
+        if (List.of(MATCH.name(), EventType.TRAINING.name()).contains(teamEventRequest.getEventType())) {
             final LocalDateTime nowPlusTwoHours = now.plusHours(2);
             if (teamEventRequest.getStartDateTime().isBefore(nowPlusTwoHours)) {
                 throw new MatchStartInLessThenTwoHoursException("Requested match/training start date is in less then two hours.");

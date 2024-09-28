@@ -4,6 +4,7 @@ import static cz.scarecrows.eventmanager.registrations.RegistrationStatus.DISPLA
 import static cz.scarecrows.eventmanager.events.controller.RestConstants.EVENTS;
 import static cz.scarecrows.eventmanager.events.controller.RestConstants.ID;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import cz.scarecrows.eventmanager.events.TeamEventSeriesFacade;
 import cz.scarecrows.eventmanager.events.data.TeamEventDto;
 import cz.scarecrows.eventmanager.events.data.TeamEventRequest;
 import cz.scarecrows.eventmanager.events.TeamEventDetailResponseDto;
@@ -44,6 +46,7 @@ public class TeamEventController {
 
     private final EntityMapper entityMapper;
     private final ResponseMapper responseMapper;
+    private final TeamEventSeriesFacade teamEventSeriesFacade;
     private final TeamEventService teamEventService;
     private final EventRegistrationService eventRegistrationService;
 
@@ -76,9 +79,9 @@ public class TeamEventController {
     }
 
     @PostMapping
-    public ResponseEntity<TeamEventDto> createEvent(@Valid @RequestBody final TeamEventRequest teamEventRequest) {
-        final TeamEvent teamEvent = teamEventService.createTeamEvent(teamEventRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(entityMapper.toDto(teamEvent));
+    public ResponseEntity<List<TeamEventDto>> createEvent(@Valid @RequestBody final TeamEventRequest teamEventRequest) {
+        final List<TeamEvent> createdEvents = teamEventSeriesFacade.createSeriesOfEvents(teamEventRequest, new ArrayList<>());
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdEvents.stream().map(entityMapper::toDto).collect(Collectors.toList()));
     }
 
     @DeleteMapping(ID)

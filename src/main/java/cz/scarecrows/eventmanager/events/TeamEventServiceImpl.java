@@ -1,7 +1,6 @@
 package cz.scarecrows.eventmanager.events;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -66,19 +65,16 @@ public class TeamEventServiceImpl implements TeamEventService {
         teamEvent.setSeason(Integer.valueOf(teamEvent.getStartDateTime().getYear()).toString());
         teamEventRepository.save(teamEvent);
 
-        final Set<Long> memberIds = new HashSet<>();
-        if (CollectionUtils.isEmpty(teamEventRequest.getMemberIds())) {
-            memberIds.addAll(teamMemberRepository.findActiveMemberIds());
-        } else {
-            memberIds.addAll(teamEventRequest.getMemberIds());
-        }
-
-        memberIds.forEach(memberId -> {
-            final EventRegistrationRequest eventRegistrationRequest = new EventRegistrationRequest(teamEvent.getEventId(), memberId);
-            eventRegistrationService.createEventRegistration(eventRegistrationRequest);
-        });
+        getMemberIds(teamEventRequest).forEach(memberId ->
+            eventRegistrationService.createEventRegistration(new EventRegistrationRequest(teamEvent.getEventId(), memberId)));
 
         return teamEvent;
+    }
+
+    private Set<Long> getMemberIds(final TeamEventRequest teamEventRequest) {
+        return CollectionUtils.isEmpty(teamEventRequest.getMemberIds())
+                ? teamMemberRepository.findActiveMemberIds()
+                : teamEventRequest.getMemberIds();
     }
 
     private TeamEventRequest setEventDates(final TeamEventRequest originalRequest) {

@@ -13,3 +13,5 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.xml
   rabbitmq:
     uri: ${RABBITMQ_URI}
+series:
+  end: ${SERIES_END}

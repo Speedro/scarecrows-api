@@ -36,7 +36,7 @@ public class TeamEventServiceTest extends AbstractIntegrationTest {
 
     @Test
     @DisplayName("Test creation of an event")
-    public void testCreateTeamEvent_expectSuccess() {
+    public void testCreateEvent_expectSuccess() {
 
         final LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         final LocalDateTime eventStart = now.plus(3L, ChronoUnit.DAYS);
