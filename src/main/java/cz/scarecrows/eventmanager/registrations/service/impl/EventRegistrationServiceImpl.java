@@ -61,12 +61,9 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
                 .uniqueRegistration(request)
                 .eval();
 
-        final TeamEvent teamEvent = teamEventRepository.getReferenceById(request.getEventId());
-        final TeamMember teamMember = teamMemberRepository.getReferenceById(request.getTeamMemberId());
-
         final EventRegistration eventRegistration = new EventRegistration();
-        eventRegistration.setTeamEventId(teamEvent.getEventId());
-        eventRegistration.setTeamMemberId(teamMember.getId());
+        eventRegistration.setTeamEventId(request.getEventId());
+        eventRegistration.setTeamMemberId(request.getTeamMemberId());
         eventRegistration.setRegistrationStatus(RegistrationStatus.PENDING);
 
         registrationRepository.save(eventRegistration);

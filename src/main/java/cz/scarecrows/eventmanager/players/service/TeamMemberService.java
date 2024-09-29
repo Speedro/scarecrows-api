@@ -6,6 +6,7 @@ package cz.scarecrows.eventmanager.players.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -27,6 +28,8 @@ import cz.scarecrows.eventmanager.players.model.TeamMember;
 public interface TeamMemberService {
 
     List<TeamMember> getTeamMembers();
+
+    Set<Long> findActiveTeamMemberIds();
 
     Optional<TeamMember> getTeamMemberById(final Long id);
 

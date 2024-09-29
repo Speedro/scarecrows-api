@@ -3,17 +3,22 @@ package cz.scarecrows.eventmanager.events;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import cz.scarecrows.eventmanager.events.data.TeamEventRequest;
 import cz.scarecrows.eventmanager.events.model.TeamEvent;
+import cz.scarecrows.eventmanager.players.service.TeamMemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TeamEventSeriesFacadeImpl implements TeamEventSeriesFacade {
@@ -23,9 +28,16 @@ public class TeamEventSeriesFacadeImpl implements TeamEventSeriesFacade {
 
     private final TeamEventService teamEventService;
 
+    private final TeamMemberService teamMemberService;
+
     @Override
     @Transactional
     public List<TeamEvent> createSeriesOfEvents(final TeamEventRequest teamEventRequest, List<TeamEvent> result) {
+
+        if (CollectionUtils.isEmpty(teamEventRequest.getMemberIds())) {
+            final Set<Long> memberIds = teamMemberService.findActiveTeamMemberIds();
+            teamEventRequest.setMemberIds(memberIds);
+        }
 
         result.add(teamEventService.createTeamEvent(teamEventRequest));
 

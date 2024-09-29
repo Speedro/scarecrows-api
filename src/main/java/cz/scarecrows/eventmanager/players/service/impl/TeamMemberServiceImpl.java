@@ -5,6 +5,7 @@ package cz.scarecrows.eventmanager.players.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -38,7 +39,14 @@ public class TeamMemberServiceImpl implements TeamMemberService {
 
     @Override
     public List<TeamMember> getTeamMembers() {
+        log.debug("Fetching team members");
         return teamMemberRepository.findAll();
+    }
+
+    @Override
+    public Set<Long> findActiveTeamMemberIds() {
+        log.debug("Fetching active team members");
+        return teamMemberRepository.findActiveMemberIds();
     }
 
     @Override

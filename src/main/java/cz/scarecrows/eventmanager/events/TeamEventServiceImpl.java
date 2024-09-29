@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import cz.scarecrows.eventmanager.players.service.TeamMemberService;
 import cz.scarecrows.eventmanager.registrations.controller.EventRegistrationRequest;
 import cz.scarecrows.eventmanager.events.data.TeamEventRequest;
 import cz.scarecrows.eventmanager.events.model.TeamEvent;
@@ -32,10 +33,10 @@ public class TeamEventServiceImpl implements TeamEventService {
 
     private final TeamEventRepository teamEventRepository;
     private final EventRegistrationService eventRegistrationService;
-    private final TeamMemberRepository teamMemberRepository;
     private final EntityMapper entityMapper;
     private final ITeamEventValidator teamEventValidator;
     private final EventRegistrationRepository eventRegistrationRepository;
+    private final TeamMemberService teamMemberService;
 
     @Override
     public List<TeamEvent> getTeamEvents(final String season) {
@@ -73,7 +74,7 @@ public class TeamEventServiceImpl implements TeamEventService {
 
     private Set<Long> getMemberIds(final TeamEventRequest teamEventRequest) {
         return CollectionUtils.isEmpty(teamEventRequest.getMemberIds())
-                ? teamMemberRepository.findActiveMemberIds()
+                ? teamMemberService.findActiveTeamMemberIds()
                 : teamEventRequest.getMemberIds();
     }
 
