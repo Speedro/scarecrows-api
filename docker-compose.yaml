@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  spring-app:
+    build: .
+    container_name: spring-boot-app
+    ports:
+      - "9001:9001"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+
+      # PostgreSQL config
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
+      # RabbitMQ config
+      SPRING_RABBITMQ_URI: amqp://admin:admin@rabbitmq:5672
+
+      # Optional override for server port if not hardcoded
+      SERVER_PORT: 9001
+
+      JWT_SECRET: "4=a^sjzA/-n49m^ZP(@ad>H"
+      SERIES_END: "2025-12-31:23:59"
+
+    depends_on:
+      - db
+      - rabbitmq
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"   # AMQP
+      - "15672:15672" # Web UI
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
