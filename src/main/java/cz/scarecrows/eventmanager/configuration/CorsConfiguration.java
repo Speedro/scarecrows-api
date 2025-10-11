@@ -2,29 +2,17 @@ package cz.scarecrows.eventmanager.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 public class CorsConfiguration {
 
+    // CORS is handled by API Gateway
+    // Return null to completely disable CORS processing in this service
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(final CorsRegistry registry) {
-                registry.addMapping("/api/v1/*")
-                        .allowedOrigins("*")
-                        .allowedMethods(
-                                HttpMethod.GET.name(),
-                                HttpMethod.POST.name(),
-                                HttpMethod.PUT.name(),
-                                HttpMethod.PATCH.name(),
-                                HttpMethod.DELETE.name(),
-                                HttpMethod.OPTIONS.name());
-            }
-        };
+    public CorsConfigurationSource corsConfigurationSource() {
+        return null;
     }
 
 }

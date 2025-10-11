@@ -1,19 +1,19 @@
 server:
-  port: 9001
+  port: ${SERVER_PORT:9001}
 auth:
   jwt:
-    secret: "4=a^sjzA/-n49m^ZP(@ad>H"
+    secret: ${JWT_SECRET:4=a^sjzA/-n49m^ZP(@ad>H}
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: postgres
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
   rabbitmq:
-    uri: "amqp://admin:admin@localhost:5672"
+    uri: ${SPRING_RABBITMQ_URI:amqp://admin:admin@localhost:5672}
 series:
-  end: "2024-12-31:23:59"
+  end: ${SERIES_END:2024-12-31:23:59}
 
 
 
